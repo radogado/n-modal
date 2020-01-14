@@ -1,0 +1,11 @@
+{
+  "name": "n-modal",
+  "version": "1.0.0",
+  "description": "Modal",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Radoslav Sharapanov <spacest@gmail.com> (http://github.com/radogado)",
+  "license": "MIT"
+}
