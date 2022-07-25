@@ -90,6 +90,9 @@ window.nuiDisableBodyScroll = (function() {
 })();
 var componentModal = (function() {
   /* Modal – start */
+  
+  var previouslyFocused = previouslyFocused || false;
+  
   function transferClass(origin, target, className) {
     let classes = typeof className === "string" ? new Array(className) : className;
     classes.forEach(el => {
@@ -131,18 +134,19 @@ var componentModal = (function() {
   function keyUpClose(e) {
     if ((e || window.event).keyCode === 27) {
       // Esc
-      closeFullWindow();
+      closeModal();
     }
   }
   var previousScrollX = 0;
   var previousScrollY = 0;
   const animation_duration = window.matchMedia("(prefers-reduced-motion: no-preference)").matches ? 200 : 0;
 
-  function closeFullWindow() {
+  function closeModal() {
     let full_window = document.querySelectorAll(".n-modal");
     full_window = full_window[full_window.length - 1];
     if (full_window) {
       window.scrollTo(previousScrollX, previousScrollY);
+      document.querySelector("html").classList.remove("no-scroll");
       let direction_option = "normal";
       var animation = full_window.querySelector(".n-modal__content > div").dataset.anim; // Custom animation?
       if (animation.length < 11) {
@@ -163,22 +167,19 @@ var componentModal = (function() {
             window.removeEventListener("keydown", arrow_keys_handler); // To do: unglobal this and apply only to modal
           }
           window.removeEventListener("keyup", keyUpClose);
-          document.querySelector("html").classList.remove("no-scroll");
         } else {
           nuiDisableBodyScroll(true, full_window.querySelector(".n-modal__content"));
         }
-        if (typeof previouslyFocused !== 'undefined' && !!previouslyFocused) {
+        if (!!previouslyFocused) {
           previouslyFocused.focus();
         }
       };
     }
   }
 
-  function openFullWindow(el, animation) {
+  function openModal(el, animation) {
     // el is an HTML string
-    if (typeof previouslyFocused !== 'undefined') {
-      previouslyFocused = document.activeElement;
-    }
+    previouslyFocused = document.activeElement;
     if (typeof full_window_content === 'undefined') {
       var full_window_content = null;
     }
@@ -200,7 +201,7 @@ var componentModal = (function() {
       if (modals) {
         let modal = modals[modals.length - 1];
         if (e.target === modal || e.target.parentNode === modal) {
-          closeFullWindow();
+          closeModal();
         }
       }
     };
@@ -220,10 +221,10 @@ var componentModal = (function() {
     nuiDisableBodyScroll(true, full_window_container); // Turn on and block page scroll
     if (document.querySelectorAll(".n-modal").length === 1) {
       // Sole (first) modal
-      document.querySelector("html").classList.add("no-scroll");
       previousScrollX = window.scrollX;
       previousScrollY = window.scrollY;
     }
+    document.querySelector("html").classList.add("no-scroll");
     if (full_window_content.querySelector(".n-full-screen")) {
       if (full_window_content.webkitRequestFullScreen) {
         full_window_content.webkitRequestFullScreen();
@@ -261,7 +262,7 @@ var componentModal = (function() {
       if (request.status >= 200 && request.status < 400) {
         // Success
         if (!request.responseText) {
-          closeFullWindow();
+          closeModal();
           window.open(link, "Modal");
           return false;
         }
@@ -272,16 +273,16 @@ var componentModal = (function() {
         } else {
           parsed = parsed.innerHTML;
         }
-        openFullWindow(parsed, animation); // To do: If .modal[data-animation], pass it to openFullWindow() as second parameter. Also in openLightbox().
+        openModal(parsed, animation); // To do: If .modal[data-animation], pass it to openModal() as second parameter. Also in openLightbox().
         transferClass(el.closest(".n-modal-link"), document.querySelector(".n-modal"), ["n-modal--limited", "n-modal--full", "n-modal--rounded", "n-modal--shadow"]);
       } else {
         // Error
-        closeFullWindow();
+        closeModal();
       }
     };
     request.onerror = () => {
       // Error
-      closeFullWindow();
+      closeModal();
       window.open(link, "_blank");
     };
     request.send();
@@ -301,7 +302,7 @@ var componentModal = (function() {
     });
   };
   typeof registerComponent === "function" ? registerComponent("n-modal", init) : init(document);
-  return { closeFullWindow, openFullWindow };
+  return { closeModal, openModal };
   /* Modal – end */
 })();
 // To do: disable page scroll by arrow keys

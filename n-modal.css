@@ -34,6 +34,11 @@ html.n-full-screen body {
   border-top-width: 3ch;
   border-bottom-width: 3ch;
 }
+@media (prefers-color-scheme: dark) {
+  .n-modal {
+    background: rgba(0, 0, 0, 0.97);
+  }
+}
 @media (max-width: 900px) {
   .n-modal {
     border-width: 1ch;
@@ -45,9 +50,7 @@ html.n-full-screen body {
 .n-modal__content {
   overflow: auto;
   background: transparent;
-}
-.n-modal__content:focus {
-  outline: 0;
+  padding: 1.5rem 1rem;
 }
 .n-modal > .n-modal__close {
   color: var(--control-color, #fff);
@@ -103,14 +106,11 @@ html.n-full-screen body {
   border-top-right-radius: 0.5ch;
 }
 .n-modal > * {
-  background: #fff;
+  background: var(--bg, #fff);
   position: relative;
 }
 
 @media (max-height: 512px) and (orientation: landscape) {
-  .n-modal__content {
-    padding: 0;
-  }
   .n-modal > .n-modal--close {
     inset-inline-start: 0.5rem;
     inset-inline-end: auto;

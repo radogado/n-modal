@@ -2,9 +2,13 @@
 // @import "../../css/niui-setup";
 
 .no-scroll {
+
   &,
   & body {
-    touch-action: none; overscroll-behavior: none; overflow: hidden; -webkit-overflow-scrolling: auto;    
+    touch-action: none;
+    overscroll-behavior: none;
+    overflow: hidden;
+    -webkit-overflow-scrolling: auto;
   }
 }
 
@@ -19,6 +23,11 @@ html.n-full-screen {
 .n-modal {
   z-index: 999999;
   background: rgba(255, 255, 255, 0.97);
+
+  @media (prefers-color-scheme: dark) {
+    background: rgba(0, 0, 0, 0.97);
+  }
+
   overflow: hidden;
   overflow-y: auto;
   position: fixed;
@@ -49,9 +58,11 @@ html.n-full-screen {
   &__content {
     overflow: auto;
     background: transparent;
-    &:focus {
-      outline: 0;
-    }
+    padding: 1.5rem 1rem;
+
+    // &:focus {
+    //   outline: 0;
+    // }
   }
 
   > .n-modal__close {
@@ -90,6 +101,7 @@ html.n-full-screen {
       box-shadow: 0 0 0.15em 0.1em var(--control-bg, grey);
       top: 3ch;
       bottom: 3ch;
+
       @media (max-width: 900px) {
         width: 100%;
         left: 1ch;
@@ -104,10 +116,12 @@ html.n-full-screen {
     .n-modal__bg {
       border-radius: 0.5ch;
     }
+
     .n-modal__content {
       border-bottom-left-radius: 0.5ch;
       border-bottom-right-radius: 0.5ch;
     }
+
     .n-modal__close {
       border-top-left-radius: 0.5ch;
       border-top-right-radius: 0.5ch;
@@ -115,16 +129,17 @@ html.n-full-screen {
   }
 
   > * {
-    background: #fff;
+    background:var(--bg, #fff);
     position: relative;
   }
 }
 
 @media (max-height: 512px) and (orientation: landscape) {
+
   // Move the close bar to the side, because it's inaccessible with certain toolbar configurations
   .n-modal {
     &__content {
-      padding: 0;
+      // padding: 0;
     }
 
     > .n-modal--close {
