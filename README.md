@@ -1,2 +1,3 @@
-# n-modal
- natUIve Modal
+Native Modal
+
+https://radogado.github.io/n-modal/
