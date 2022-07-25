@@ -4,14 +4,12 @@
  */
 window.nuiDisableBodyScroll = (function() {
   // Thanks Thijs Huijssoon https://gist.github.com/thuijssoon
-
   /**
    * Private variables
    */
   var _selector = false,
     _element = false,
     _clientY;
-
   /**
    * Prevent default unless within _selector
    *
@@ -23,7 +21,6 @@ window.nuiDisableBodyScroll = (function() {
       event.preventDefault();
     }
   };
-
   /**
    * Cache the clientY co-ordinates for
    * comparison
@@ -37,7 +34,6 @@ window.nuiDisableBodyScroll = (function() {
       _clientY = event.targetTouches[0].clientY;
     }
   };
-
   /**
    * Detect whether the element is at the top
    * or the bottom of their scroll and prevent
@@ -51,15 +47,12 @@ window.nuiDisableBodyScroll = (function() {
     if (event.targetTouches.length !== 1) {
       return;
     }
-
     var clientY = event.targetTouches[0].clientY - _clientY;
-
     // The element at the top of its scroll,
     // and the user scrolls down
     if (_element.scrollTop === 0 && clientY > 0) {
       event.preventDefault();
     }
-
     // The element at the bottom of its scroll,
     // and the user scrolls up
     // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#Problems_and_solutions
@@ -67,7 +60,6 @@ window.nuiDisableBodyScroll = (function() {
       event.preventDefault();
     }
   };
-
   /**
    * Disable body scroll. Scrolling with the selector is
    * allowed if a selector is provided.
@@ -81,7 +73,6 @@ window.nuiDisableBodyScroll = (function() {
       _selector = selector;
       _element = selector;
     }
-
     if (true === allow) {
       if (false !== _element) {
         _element.addEventListener("touchstart", captureClientY, { passive: false });
@@ -97,10 +88,8 @@ window.nuiDisableBodyScroll = (function() {
     }
   };
 })();
-
-var componentModal = (function () {
+var componentModal = (function() {
   /* Modal – start */
-
   const focusableElements = 'button, [href], input, select, textarea, details, summary, video, [tabindex]:not([tabindex="-1"])';
   const trapFocus = (modal) => {
     // FROM: https://uxdesign.cc/how-to-trap-focus-inside-modal-to-make-it-ada-compliant-6a50f9a70700
@@ -108,7 +97,7 @@ var componentModal = (function () {
     const firstFocusableElement = modal.querySelectorAll(focusableElements)[0]; // get first element to be focused inside modal
     const focusableContent = modal.querySelectorAll(focusableElements);
     const lastFocusableElement = focusableContent[focusableContent.length - 1]; // get last element to be focused inside modal
-    document.addEventListener("keydown", function (e) {
+    document.addEventListener("keydown", function(e) {
       let isTabPressed = e.key === "Tab" || e.keyCode === 9;
       if (!isTabPressed) {
         return;
@@ -146,7 +135,6 @@ var componentModal = (function () {
   }
   var previousScrollX = 0;
   var previousScrollY = 0;
-
   const animation_duration = window.matchMedia("(prefers-reduced-motion: no-preference)").matches ? 200 : 0;
 
   function closeFullWindow() {
@@ -162,22 +150,25 @@ var componentModal = (function () {
       } else {
         direction_option = "reverse";
       }
-
       full_window.animate(JSON.parse(animation), { duration: animation_duration, direction: direction_option, easing: "ease-in-out" }).onfinish = () => {
         nuiDisableBodyScroll(false, full_window.querySelector(".n-modal__content")); // Turn off and restore page scroll
         full_window.parentNode.removeChild(full_window);
-        full_window_content = null;
+        if (typeof full_window_content !== 'undefined') {
+          full_window_content = null;
+        }
         if (!document.querySelector(".n-modal")) {
           // A single overlay is gone, leaving no overlays on the page
           window.removeEventListener("resize", adjustModal);
-          window.removeEventListener("keydown", arrow_keys_handler); // To do: unglobal this and apply only to modal
+          if (typeof arrow_keys_handler !== 'undefined') {
+            window.removeEventListener("keydown", arrow_keys_handler); // To do: unglobal this and apply only to modal
+          }
           window.removeEventListener("keyup", keyUpClose);
-          removeClass(document.querySelector("html"), "no-scroll");
+          document.querySelector("html").classList.remove("no-scroll");
         } else {
           nuiDisableBodyScroll(true, full_window.querySelector(".n-modal__content"));
           adjustModal();
         }
-        if (previouslyFocused) {
+        if (typeof previouslyFocused !== 'undefined' && !!previouslyFocused) {
           previouslyFocused.focus();
         }
       };
@@ -186,7 +177,12 @@ var componentModal = (function () {
 
   function openFullWindow(el, animation) {
     // el is an HTML string
-    previouslyFocused = document.activeElement;
+    if (typeof previouslyFocused !== 'undefined') {
+      previouslyFocused = document.activeElement;
+    }
+    if (typeof full_window_content === 'undefined') {
+      var full_window_content = null;
+    }
     full_window_content = document.createElement("div");
     if (typeof el === "string") {
       full_window_content.innerHTML = el;
@@ -195,7 +191,7 @@ var componentModal = (function () {
     }
     full_window_content.dataset.anim = animation;
     var wrapper = document.createElement("div");
-    addClass(wrapper, "n-modal");
+    wrapper.classList.add("n-modal");
     wrapper.insertAdjacentHTML("beforeend", "<div class=n-modal__content tabindex=0></div><div class=n-modal__bg></div>");
     wrapper.firstChild.appendChild(full_window_content);
     full_window_content = wrapper;
@@ -209,20 +205,14 @@ var componentModal = (function () {
         }
       }
     };
-    full_window_content.querySelector(".n-modal__close").addEventListener(
-      "touchmove",
+    full_window_content.querySelector(".n-modal__close").addEventListener("touchmove",
       (e) => {
         e.preventDefault();
-      },
-      { passive: false }
-    );
-    full_window_content.querySelector(".n-modal__bg").addEventListener(
-      "touchmove",
+      }, { passive: false });
+    full_window_content.querySelector(".n-modal__bg").addEventListener("touchmove",
       (e) => {
         e.preventDefault();
-      },
-      { passive: false }
-    );
+      }, { passive: false });
     window.addEventListener("keyup", keyUpClose);
     document.body.appendChild(full_window_content);
     trapFocus(full_window_content);
@@ -231,7 +221,7 @@ var componentModal = (function () {
     nuiDisableBodyScroll(true, full_window_container); // Turn on and block page scroll
     if (document.querySelectorAll(".n-modal").length === 1) {
       // Sole (first) modal
-      addClass(document.querySelector("html"), "no-scroll");
+      document.querySelector("html").classList.add("no-scroll");
       previousScrollX = window.scrollX;
       previousScrollY = window.scrollY;
       window.addEventListener("resize", adjustModal);
@@ -256,6 +246,13 @@ var componentModal = (function () {
     return false;
   }
 
+  function parseHTML(str) {
+    var tmp = document.implementation.createHTMLDocument("Parsed");
+    tmp.body.innerHTML = str;
+    // To do: destroy the HTMLDocument before returning
+    return tmp.body;
+  }
+
   function modalWindow(e) {
     // Modal window of external file content
     var el = e.target;
@@ -271,18 +268,15 @@ var componentModal = (function () {
           window.open(link, "Modal");
           return false;
         }
+        var parsed = parseHTML(request.responseText);
         var container = !!link.split("#")[1] ? "#" + link.split("#")[1] : 0;
-        var parsed = request.responseText;
-        if (container) {
-          parsed = parseHTML(request.responseText);
-          if (!parsed.querySelector(container)) {
-            closeFullWindow();
-            return false;
-          }
+        if (container && parsed.querySelector(container)) {
           parsed = parsed.querySelector(container).innerHTML;
+        } else {
+          parsed = parsed.innerHTML;
         }
         openFullWindow(parsed, animation); // To do: If .modal[data-animation], pass it to openFullWindow() as second parameter. Also in openLightbox().
-        transferClass(el.closest(".n-modal-link"), document.querySelector(".n-modal"), ["n-modal--limited", "n-modal--full", "n-modal--rounded", "n-modal--shadow"]);
+        // transferClass(el.closest(".n-modal-link"), document.querySelector(".n-modal"), ["n-modal--limited", "n-modal--full", "n-modal--rounded", "n-modal--shadow"]);
       } else {
         // Error
         closeFullWindow();
@@ -309,7 +303,7 @@ var componentModal = (function () {
       el.dataset.ready = true;
     });
   };
-  typeof registerComponent === "function" ? registerComponent("n-modal", init) : init(document.body);
+  typeof registerComponent === "function" ? registerComponent("n-modal", init) : init(document);
   return { closeFullWindow, openFullWindow, adjustModal };
   /* Modal – end */
 })();
