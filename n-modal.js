@@ -90,6 +90,14 @@ window.nuiDisableBodyScroll = (function() {
 })();
 var componentModal = (function() {
   /* Modal – start */
+  function transferClass(origin, target, className) {
+    let classes = typeof className === "string" ? new Array(className) : className;
+    classes.forEach(el => {
+      if (origin.classList.contains(el)) {
+        target.classList.add(el);
+      }
+    });
+  }
   const focusableElements = 'button, [href], input, select, textarea, details, summary, video, [tabindex]:not([tabindex="-1"])';
   const trapFocus = (modal) => {
     // FROM: https://uxdesign.cc/how-to-trap-focus-inside-modal-to-make-it-ada-compliant-6a50f9a70700
@@ -119,13 +127,6 @@ var componentModal = (function() {
     });
     firstFocusableElement.focus();
   };
-
-  function adjustModal(e) {
-    if (!!window.visualViewport) {
-      document.body.style.setProperty("--overlay-top", `${window.visualViewport.offsetTop}px`);
-      document.body.style.setProperty("--overlay-bottom", `${window.innerHeight - window.visualViewport.height}px`);
-    }
-  }
 
   function keyUpClose(e) {
     if ((e || window.event).keyCode === 27) {
@@ -158,7 +159,6 @@ var componentModal = (function() {
         }
         if (!document.querySelector(".n-modal")) {
           // A single overlay is gone, leaving no overlays on the page
-          window.removeEventListener("resize", adjustModal);
           if (typeof arrow_keys_handler !== 'undefined') {
             window.removeEventListener("keydown", arrow_keys_handler); // To do: unglobal this and apply only to modal
           }
@@ -166,7 +166,6 @@ var componentModal = (function() {
           document.querySelector("html").classList.remove("no-scroll");
         } else {
           nuiDisableBodyScroll(true, full_window.querySelector(".n-modal__content"));
-          adjustModal();
         }
         if (typeof previouslyFocused !== 'undefined' && !!previouslyFocused) {
           previouslyFocused.focus();
@@ -224,8 +223,6 @@ var componentModal = (function() {
       document.querySelector("html").classList.add("no-scroll");
       previousScrollX = window.scrollX;
       previousScrollY = window.scrollY;
-      window.addEventListener("resize", adjustModal);
-      adjustModal();
     }
     if (full_window_content.querySelector(".n-full-screen")) {
       if (full_window_content.webkitRequestFullScreen) {
@@ -276,7 +273,7 @@ var componentModal = (function() {
           parsed = parsed.innerHTML;
         }
         openFullWindow(parsed, animation); // To do: If .modal[data-animation], pass it to openFullWindow() as second parameter. Also in openLightbox().
-        // transferClass(el.closest(".n-modal-link"), document.querySelector(".n-modal"), ["n-modal--limited", "n-modal--full", "n-modal--rounded", "n-modal--shadow"]);
+        transferClass(el.closest(".n-modal-link"), document.querySelector(".n-modal"), ["n-modal--limited", "n-modal--full", "n-modal--rounded", "n-modal--shadow"]);
       } else {
         // Error
         closeFullWindow();
@@ -304,7 +301,7 @@ var componentModal = (function() {
     });
   };
   typeof registerComponent === "function" ? registerComponent("n-modal", init) : init(document);
-  return { closeFullWindow, openFullWindow, adjustModal };
+  return { closeFullWindow, openFullWindow };
   /* Modal – end */
 })();
 // To do: disable page scroll by arrow keys
