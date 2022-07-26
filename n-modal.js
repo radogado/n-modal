@@ -90,9 +90,7 @@ window.nuiDisableBodyScroll = (function() {
 })();
 var componentModal = (function() {
   /* Modal – start */
-  
-  var previouslyFocused = previouslyFocused || false;
-  
+  // var previouslyFocused = previouslyFocused || false;
   function transferClass(origin, target, className) {
     let classes = typeof className === "string" ? new Array(className) : className;
     classes.forEach(el => {
@@ -101,142 +99,108 @@ var componentModal = (function() {
       }
     });
   }
-  const focusableElements = 'button, [href], input, select, textarea, details, summary, video, [tabindex]:not([tabindex="-1"])';
-  const trapFocus = (modal) => {
-    // FROM: https://uxdesign.cc/how-to-trap-focus-inside-modal-to-make-it-ada-compliant-6a50f9a70700
-    // add all the elements inside modal which you want to make focusable
-    const firstFocusableElement = modal.querySelectorAll(focusableElements)[0]; // get first element to be focused inside modal
-    const focusableContent = modal.querySelectorAll(focusableElements);
-    const lastFocusableElement = focusableContent[focusableContent.length - 1]; // get last element to be focused inside modal
-    document.addEventListener("keydown", function(e) {
-      let isTabPressed = e.key === "Tab" || e.keyCode === 9;
-      if (!isTabPressed) {
-        return;
-      }
-      if (e.shiftKey) {
-        // if shift key pressed for shift + tab combination
-        if (document.activeElement === firstFocusableElement) {
-          lastFocusableElement.focus(); // add focus for the last focusable element
-          e.preventDefault();
-        }
-      } else {
-        // if tab key is pressed
-        if (document.activeElement === lastFocusableElement) {
-          // if focused has reached to last focusable element then focus first focusable element after pressing tab
-          firstFocusableElement.focus(); // add focus for the first focusable element
-          e.preventDefault();
-        }
-      }
-    });
-    firstFocusableElement.focus();
-  };
-
-  function keyUpClose(e) {
-    if ((e || window.event).keyCode === 27) {
+  //   const focusableElements = 'button, [href], input, select, textarea, details, summary, video, [tabindex]:not([tabindex="-1"])';
+  //   const trapFocus = (modal) => {
+  //     // FROM: https://uxdesign.cc/how-to-trap-focus-inside-modal-to-make-it-ada-compliant-6a50f9a70700
+  //     // add all the elements inside modal which you want to make focusable
+  //     const firstFocusableElement = modal.querySelectorAll(focusableElements)[0]; // get first element to be focused inside modal
+  //     const focusableContent = modal.querySelectorAll(focusableElements);
+  //     const lastFocusableElement = focusableContent[focusableContent.length - 1]; // get last element to be focused inside modal
+  //     document.addEventListener("keydown", function(e) {
+  //       let isTabPressed = e.key === "Tab" || e.keyCode === 9;
+  //       if (!isTabPressed) {
+  //         return;
+  //       }
+  //       if (e.shiftKey) {
+  //         // if shift key pressed for shift + tab combination
+  //         if (document.activeElement === firstFocusableElement) {
+  //           lastFocusableElement.focus(); // add focus for the last focusable element
+  //           e.preventDefault();
+  //         }
+  //       } else {
+  //         // if tab key is pressed
+  //         if (document.activeElement === lastFocusableElement) {
+  //           // if focused has reached to last focusable element then focus first focusable element after pressing tab
+  //           firstFocusableElement.focus(); // add focus for the first focusable element
+  //           e.preventDefault();
+  //         }
+  //       }
+  //     });
+  //     firstFocusableElement.focus();
+  //   };
+  // 
+  function closeByEsc(e) {
+    if (e.keyCode === 27) {
       // Esc
-      closeModal();
+      e.preventDefault();
+      closeModal(e.target.closest('.n-modal'));
     }
   }
   var previousScrollX = 0;
   var previousScrollY = 0;
   const animation_duration = window.matchMedia("(prefers-reduced-motion: no-preference)").matches ? 200 : 0;
 
-  function closeModal() {
-    let full_window = document.querySelectorAll(".n-modal");
-    full_window = full_window[full_window.length - 1];
-    if (full_window) {
-      window.scrollTo(previousScrollX, previousScrollY);
-      document.querySelector("html").classList.remove("no-scroll");
-      let direction_option = "normal";
-      var animation = full_window.querySelector(".n-modal__content > div").dataset.anim; // Custom animation?
-      if (animation.length < 11) {
-        // '', 'null' or 'undefined'?
-        animation = '[{ "transform": "translate3d(0,0,0)" }, { "transform": "translate3d(0,-100%,0)" }]';
-      } else {
-        direction_option = "reverse";
-      }
-      full_window.animate(JSON.parse(animation), { duration: animation_duration, direction: direction_option, easing: "ease-in-out" }).onfinish = () => {
-        nuiDisableBodyScroll(false, full_window.querySelector(".n-modal__content")); // Turn off and restore page scroll
-        full_window.parentNode.removeChild(full_window);
-        if (typeof full_window_content !== 'undefined') {
-          full_window_content = null;
-        }
-        if (!document.querySelector(".n-modal")) {
-          // A single overlay is gone, leaving no overlays on the page
-          if (typeof arrow_keys_handler !== 'undefined') {
-            window.removeEventListener("keydown", arrow_keys_handler); // To do: unglobal this and apply only to modal
-          }
-          window.removeEventListener("keyup", keyUpClose);
-        } else {
-          nuiDisableBodyScroll(true, full_window.querySelector(".n-modal__content"));
-        }
-        if (!!previouslyFocused) {
-          previouslyFocused.focus();
-        }
-      };
+  function closeModal(modal) {
+    window.scrollTo(previousScrollX, previousScrollY);
+    document.querySelector("html").classList.remove("no-scroll");
+    let direction_option = "normal";
+    var animation = modal.querySelector(".n-modal__content > div").dataset.anim; // Custom animation?
+    if (animation.length < 11) {
+      // '', 'null' or 'undefined'?
+      animation = '[{ "transform": "translate3d(0,0,0)" }, { "transform": "translate3d(0,-100%,0)" }]';
+    } else {
+      direction_option = "reverse";
     }
+    modal.animate(JSON.parse(animation), { duration: animation_duration, direction: direction_option, easing: "ease-in-out" }).onfinish = () => {
+      nuiDisableBodyScroll(false, modal.querySelector(".n-modal__content")); // Turn off and restore page scroll
+      modal.close();
+      modal.remove();
+    };
   }
 
   function openModal(el, animation) {
     // el is an HTML string
-    previouslyFocused = document.activeElement;
-    if (typeof full_window_content === 'undefined') {
-      var full_window_content = null;
-    }
-    full_window_content = document.createElement("div");
+    let modal_content = document.createElement("div");
     if (typeof el === "string") {
-      full_window_content.innerHTML = el;
+      modal_content.innerHTML = el;
     } else {
-      full_window_content.appendChild(el);
+      modal_content.appendChild(el);
     }
-    full_window_content.dataset.anim = animation;
-    var wrapper = document.createElement("div");
+    modal_content.dataset.anim = animation;
+    var wrapper = document.createElement("dialog");
     wrapper.classList.add("n-modal");
-    wrapper.insertAdjacentHTML("beforeend", "<div class=n-modal__content tabindex=0></div><div class=n-modal__bg></div>");
-    wrapper.firstChild.appendChild(full_window_content);
-    full_window_content = wrapper;
-    full_window_content.insertAdjacentHTML("afterbegin", `<button class=n-modal__close> ← ${document.title}</button>`);
-    full_window_content.onclick = (e) => {
-      let modals = document.querySelectorAll(".n-modal");
-      if (modals) {
-        let modal = modals[modals.length - 1];
-        if (e.target === modal || e.target.parentNode === modal) {
-          closeModal();
-        }
+    wrapper.insertAdjacentHTML("beforeend", "<div class=n-modal__content></div><div class=n-modal__bg></div>");
+    wrapper.firstChild.appendChild(modal_content);
+    wrapper.insertAdjacentHTML("afterbegin", `<button class=n-modal__close> ← ${document.title}</button>`);
+    wrapper.onclick = (e) => {
+      let el = e.target.closest('.n-modal');
+      let button = e.target.closest('.n-modal__close');
+      if (button || (e.offsetX < 0 || e.offsetY < 0 || (e.offsetX - 2) > el.getBoundingClientRect().width || (e.offsetY - 2) > el.getBoundingClientRect().height)) {
+        closeModal(el);
       }
     };
-    full_window_content.querySelector(".n-modal__close").addEventListener("touchmove",
-      (e) => {
-        e.preventDefault();
-      }, { passive: false });
-    full_window_content.querySelector(".n-modal__bg").addEventListener("touchmove",
-      (e) => {
-        e.preventDefault();
-      }, { passive: false });
-    window.addEventListener("keyup", keyUpClose);
-    document.body.appendChild(full_window_content);
-    trapFocus(full_window_content);
-    let full_window_container = full_window_content.querySelector(".n-modal__content");
-    full_window_container.focus();
-    nuiDisableBodyScroll(true, full_window_container); // Turn on and block page scroll
+    wrapper.addEventListener("keydown", closeByEsc);
+    document.body.appendChild(wrapper);
+    wrapper.showModal();
+    nuiDisableBodyScroll(true, wrapper.querySelector(".n-modal__content")); // Turn on and block page scroll
     if (document.querySelectorAll(".n-modal").length === 1) {
       // Sole (first) modal
       previousScrollX = window.scrollX;
       previousScrollY = window.scrollY;
     }
     document.querySelector("html").classList.add("no-scroll");
-    if (full_window_content.querySelector(".n-full-screen")) {
-      if (full_window_content.webkitRequestFullScreen) {
-        full_window_content.webkitRequestFullScreen();
+    if (wrapper.querySelector(".n-full-screen")) {
+      if (wrapper.webkitRequestFullScreen) {
+        wrapper.webkitRequestFullScreen();
       }
-      if (full_window_content.mozRequestFullScreen) {
-        full_window_content.mozRequestFullScreen();
+      if (wrapper.mozRequestFullScreen) {
+        wrapper.mozRequestFullScreen();
       }
-      if (full_window_content.requestFullScreen) {
-        full_window_content.requestFullScreen();
+      if (wrapper.requestFullScreen) {
+        wrapper.requestFullScreen();
       }
     } else {
-      full_window_content.animate(typeof animation === "string" ? JSON.parse(animation) : [{ transform: "translate3d(0,-100%,0)" }, { transform: "translate3d(0,0,0)" }], {
+      wrapper.animate(typeof animation === "string" ? JSON.parse(animation) : [{ transform: "translate3d(0,-100vh,0)" }, { transform: "translate3d(0,0,0)" }], {
         duration: animation_duration,
         easing: "ease-in-out",
       });
@@ -262,7 +226,6 @@ var componentModal = (function() {
       if (request.status >= 200 && request.status < 400) {
         // Success
         if (!request.responseText) {
-          closeModal();
           window.open(link, "Modal");
           return false;
         }
@@ -277,12 +240,10 @@ var componentModal = (function() {
         transferClass(el.closest(".n-modal-link"), document.querySelector(".n-modal"), ["n-modal--limited", "n-modal--full", "n-modal--rounded", "n-modal--shadow"]);
       } else {
         // Error
-        closeModal();
       }
     };
     request.onerror = () => {
       // Error
-      closeModal();
       window.open(link, "_blank");
     };
     request.send();
