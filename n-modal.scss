@@ -39,7 +39,6 @@
     }
   }
 
-
   // overflow: hidden;
   // overflow-y: auto;
   // position: fixed;
@@ -116,8 +115,9 @@
   }
 
   &.n-modal--full {
-    margin: 0;
+    margin: auto;
     width: 100%;
+    width: calc(100vw - 2 * env(safe-area-inset-left));
     height: 100%;
   }
 

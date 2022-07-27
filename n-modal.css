@@ -49,8 +49,9 @@
   font-weight: normal;
 }
 .n-modal.n-modal--full {
-  margin: 0;
+  margin: auto;
   width: 100%;
+  width: calc(100vw - 2 * env(safe-area-inset-left));
   height: 100%;
 }
 .n-modal--rounded {
