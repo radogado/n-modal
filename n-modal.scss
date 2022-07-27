@@ -102,7 +102,9 @@
   }
 
   &.n-modal--full {
-    border: none;
+    margin: 0;
+    width: 100%;
+    height: 100%;
   }
 
   &--shadow:not(.n-modal--full) {
