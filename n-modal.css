@@ -8,48 +8,36 @@
 }
 
 .n-modal {
+  background: var(--bg, #fff);
+  border: 0;
+}
+.n-modal::backdrop {
   background: rgba(255, 255, 255, 0.97);
-  display: flex;
-  flex-direction: column;
-  border: calc(50vw - 35ch) solid transparent;
-  border-top-width: 3ch;
-  border-bottom-width: 3ch;
 }
 @media (prefers-color-scheme: dark) {
-  .n-modal {
+  .n-modal::backdrop {
     background: rgba(0, 0, 0, 0.97);
-  }
-}
-@media (max-width: 900px) {
-  .n-modal {
-    border-width: 1ch;
   }
 }
 .n-modal__content {
   overflow: auto;
   background: transparent;
-  padding: 1.5rem 1rem;
 }
 .n-modal > .n-modal__close {
   color: var(--control-color, #fff);
   cursor: pointer;
   padding: 0.75em;
   font: inherit;
-  font-weight: bold;
   background-color: var(--control-bg, rgba(0, 0, 0, 0.7));
-  width: 100%;
-  z-index: 99999;
+  z-index: 1;
   top: 0;
   position: sticky;
-  overflow: hidden;
-  height: 3em;
-  overflow-x: auto;
-  white-space: nowrap;
-  line-height: var(--line-height-em, 1.5rem);
-  text-align: start;
   border: 0;
-  outline-offset: -5px;
-  flex: 3em 0 0;
+  line-height: 0;
+  padding: 0.5rem;
+  font-size: 2rem;
+  padding-bottom: 1.25rem;
+  font-weight: normal;
 }
 .n-modal.n-modal--full {
   border: none;

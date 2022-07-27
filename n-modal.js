@@ -152,7 +152,7 @@ var componentModal = (function() {
       direction_option = "reverse";
     }
     modal.animate(JSON.parse(animation), { duration: animation_duration, direction: direction_option, easing: "ease-in-out" }).onfinish = () => {
-      nuiDisableBodyScroll(false, modal.querySelector(".n-modal__content")); // Turn off and restore page scroll
+      nuiDisableBodyScroll(false, modal); // Turn off and restore page scroll
       modal.close();
       modal.remove();
     };
@@ -168,10 +168,11 @@ var componentModal = (function() {
     }
     modal_content.dataset.anim = animation;
     var wrapper = document.createElement("dialog");
+    wrapper.dataset.platform = navigator.platform;
     wrapper.classList.add("n-modal");
     wrapper.insertAdjacentHTML("beforeend", "<div class=n-modal__content></div><div class=n-modal__bg></div>");
     wrapper.firstChild.appendChild(modal_content);
-    wrapper.insertAdjacentHTML("afterbegin", `<button class=n-modal__close> ← ${document.title}</button>`);
+    wrapper.insertAdjacentHTML("afterbegin", `<button class="n-modal__close" aria-label="Close"> ⨯ </button>`);
     wrapper.onclick = (e) => {
       let el = e.target.closest('.n-modal');
       let button = e.target.closest('.n-modal__close');
@@ -182,7 +183,7 @@ var componentModal = (function() {
     wrapper.addEventListener("keydown", closeByEsc);
     document.body.appendChild(wrapper);
     wrapper.showModal();
-    nuiDisableBodyScroll(true, wrapper.querySelector(".n-modal__content")); // Turn on and block page scroll
+    nuiDisableBodyScroll(true, wrapper); // Turn on and block page scroll
     if (document.querySelectorAll(".n-modal").length === 1) {
       // Sole (first) modal
       previousScrollX = window.scrollX;
