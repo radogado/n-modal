@@ -24,10 +24,15 @@
 
   background: var(--bg, #fff);
   border: 0;
+  text-align: end;
 
   // z-index: 999999;
   &::backdrop {
     background: rgba(255, 255, 255, 0.97);
+
+    @media (prefers-reduced-motion: no-preference) {
+      animation: fade-in .2s ease-in-out;
+    }
 
     @media (prefers-color-scheme: dark) {
       background: rgba(0, 0, 0, 0.97);
@@ -65,14 +70,19 @@
   &__content {
     overflow: auto;
     background: transparent;
+    text-align: initial;
+    // padding-inline-start: env(safe-area-inset-left);
+    // padding-inline-end: env(safe-area-inset-right);
     // padding: 1.5rem 1rem;
 
     // &:focus {
     //   outline: 0;
     // }
   }
-
+  
   > .n-modal__close {
+    min-width: 40px;
+    min-height: 40px;
     color: var(--control-color, #fff);
     cursor: pointer;
     padding: 0.75em;
@@ -98,6 +108,10 @@
     font-size: 2rem;
     padding-bottom: 1.25rem;
     font-weight: normal;
+
+    // margin-inline-start: env(safe-area-inset-left);
+    // margin-inline-end: env(safe-area-inset-right);
+
 
   }
 
@@ -132,14 +146,8 @@
     border-radius: 0.5ch;
     // }
 
-    .n-modal__content {
-      border-bottom-left-radius: 0.5ch;
-      border-bottom-right-radius: 0.5ch;
-    }
-
     .n-modal__close {
-      border-top-left-radius: 0.5ch;
-      border-top-right-radius: 0.5ch;
+      border-radius: 50%;
     }
   }
 
@@ -149,34 +157,18 @@
   }
 }
 
-@media (max-height: 512px) and (orientation: landscape) {
+_::-webkit-full-page-media,
+_:future,
+:root .n-modal {
+  text-align: start;
+}
 
-  // Move the close bar to the side, because it's inaccessible with certain toolbar configurations
-  .n-modal {
-    &__content {
-      // padding: 0;
-    }
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
 
-    > .n-modal--close {
-      inset-inline-start: 0.5rem;
-      inset-inline-end: auto;
-      margin-top: 0.5rem;
-      top: var(--overlay-top, 0);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      font-size: 0;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-
-      &:after {
-        content: "╳";
-        font-size: 1rem;
-        display: inline-block;
-        width: 40px;
-        text-align: center;
-      }
-    }
+  to {
+    opacity: 1;
   }
 }

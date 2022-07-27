@@ -168,7 +168,6 @@ var componentModal = (function() {
     }
     modal_content.dataset.anim = animation;
     var wrapper = document.createElement("dialog");
-    wrapper.dataset.platform = navigator.platform;
     wrapper.classList.add("n-modal");
     wrapper.insertAdjacentHTML("beforeend", "<div class=n-modal__content></div><div class=n-modal__bg></div>");
     wrapper.firstChild.appendChild(modal_content);
