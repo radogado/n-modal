@@ -54,6 +54,18 @@
   width: calc(100vw - 2 * env(safe-area-inset-left));
   height: 100%;
 }
+.n-modal.n-modal--shadow {
+  box-shadow: 0 0 0.25rem 0.125rem rgba(0, 0, 0, 0.5);
+  margin-top: 0.75rem;
+}
+@media (prefers-color-scheme: dark) {
+  .n-modal.n-modal--shadow {
+    box-shadow: 0 0 0.25rem 0.125rem rgba(255, 255, 255, 0.5);
+  }
+}
+.n-modal.n-modal--shadow::backdrop {
+  display: none;
+}
 .n-modal--rounded {
   border-radius: 0.5ch;
 }

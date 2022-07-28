@@ -121,23 +121,14 @@
     height: 100%;
   }
 
-  &--shadow:not(.n-modal--full) {
-    &:backdrop {
-      //       z-index: -1;
-      //       position: fixed;
-      //       width: 70ch;
-      //       max-width: calc(100% - 2ch);
-      //       box-shadow: 0 0 0.15em 0.1em var(--control-bg, grey);
-      //       top: 3ch;
-      //       bottom: 3ch;
-      // 
-      //       @media (max-width: 900px) {
-      //         width: 100%;
-      //         left: 1ch;
-      //         right: 1ch;
-      //         top: 1ch;
-      //         bottom: 1ch;
-      //       }
+  &.n-modal--shadow {
+    box-shadow: 0 0 .25rem .125rem rgba(0, 0, 0, .5);
+    @media (prefers-color-scheme: dark) {
+      box-shadow: 0 0 .25rem .125rem rgba(255, 255, 255, .5);
+    }
+    margin-top: .75rem;
+    &::backdrop {
+      display: none;
     }
   }
 
