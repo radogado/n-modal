@@ -139,12 +139,19 @@ var componentModal = (function() {
   var previousScrollX = 0;
   var previousScrollY = 0;
   const animation_duration = window.matchMedia("(prefers-reduced-motion: no-preference)").matches ? 200 : 0;
+  let removeModal = modal => {
+    if (modal.dataset.existingAttachedContent) {
+      modal.replaceWith(modal.lastChild.firstElementChild);
+    } else {
+      modal.remove();
+    }
+  }
 
   function closeModal(modal) {
     window.scrollTo(previousScrollX, previousScrollY);
     document.querySelector("html").classList.remove("no-scroll");
     let direction_option = "normal";
-    var animation = modal.querySelector(".n-modal__content > div").dataset.anim; // Custom animation?
+    var animation = modal.dataset.anim; // Custom animation?
     if (animation.length < 11) {
       // '', 'null' or 'undefined'?
       animation = '[{ "transform": "translate3d(0,0,0)" }, { "transform": "translate3d(0,-100%,0)" }]';
@@ -154,24 +161,15 @@ var componentModal = (function() {
     modal.animate(JSON.parse(animation), { duration: animation_duration, direction: direction_option, easing: "ease-in-out" }).onfinish = () => {
       nuiDisableBodyScroll(false, modal); // Turn off and restore page scroll
       modal.close();
-      modal.remove();
     };
   }
 
-  function openModal(el, animation) {
-    // el is an HTML string
-    let modal_content = document.createElement("div");
-    if (typeof el === "string") {
-      modal_content.innerHTML = el;
-    } else {
-      modal_content.appendChild(el);
-    }
-    modal_content.dataset.anim = animation;
+  function openModal(content, animation) {
+    // content is either an HTML string or an element
     var wrapper = document.createElement("dialog");
+    wrapper.dataset.anim = animation;
     wrapper.classList.add("n-modal");
-    wrapper.insertAdjacentHTML("beforeend", "<div class=n-modal__content></div><div class=n-modal__bg></div>");
-    wrapper.firstChild.appendChild(modal_content);
-    wrapper.insertAdjacentHTML("afterbegin", `<button class="n-modal__close" aria-label="Close"> ⨯ </button>`);
+    wrapper.insertAdjacentHTML("afterbegin", `<button class="n-modal__close" aria-label="Close"> ⨯ </button><div class="n-modal__content"></div>`);
     wrapper.onclick = (e) => {
       let el = e.target.closest('.n-modal');
       let button = e.target.closest('.n-modal__close');
@@ -180,7 +178,24 @@ var componentModal = (function() {
       }
     };
     wrapper.addEventListener("keydown", closeByEsc);
-    document.body.appendChild(wrapper);
+    let modal_content = document.createElement("div");
+    if (typeof content === "string") {
+      wrapper.lastChild.innerHTML = content;
+      document.body.appendChild(wrapper);
+    } else {
+      let parent = content.parentElement;
+      wrapper.dataset.existingContent = true;
+      if (parent) {
+        let marker = document.createElement('div');
+        content.replaceWith(marker);
+        wrapper.lastChild.appendChild(content);
+        marker.replaceWith(wrapper);
+        wrapper.dataset.existingAttachedContent = true;
+      } else {
+        wrapper.lastChild.appendChild(content);
+        document.body.appendChild(wrapper);
+      }
+    }
     wrapper.showModal();
     nuiDisableBodyScroll(true, wrapper); // Turn on and block page scroll
     if (document.querySelectorAll(".n-modal").length === 1) {
@@ -205,6 +220,9 @@ var componentModal = (function() {
         easing: "ease-in-out",
       });
     }
+    wrapper.addEventListener('close', e => {
+      removeModal(e.target);
+    });
     return false;
   }
 
@@ -215,7 +233,7 @@ var componentModal = (function() {
     return tmp.body;
   }
 
-  function modalWindow(e) {
+  function modalWindowLink(e) {
     // Modal window of external file content
     var el = e.target;
     var link = el.closest(".n-modal-link").href;
@@ -254,13 +272,14 @@ var componentModal = (function() {
     host.querySelectorAll("a.n-modal-link[href]:not([data-ready])").forEach((el) => {
       if (el.href !== location.href.split("#")[0] + "#") {
         // Is it an empty anchor?
-        el.onclick = modalWindow;
+        el.onclick = modalWindowLink;
       }
       if (!el.getAttribute("rel")) {
         el.setAttribute("rel", "prefetch");
       }
       el.dataset.ready = true;
     });
+    window.nModalOpen = openModal;
   };
   typeof registerComponent === "function" ? registerComponent("n-modal", init) : init(document);
   return { closeModal, openModal };
