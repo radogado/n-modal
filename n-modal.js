@@ -173,7 +173,7 @@ var componentModal = (function() {
     var wrapper = document.createElement("dialog");
     wrapper.dataset.anim = animation;
     wrapper.classList.add("n-modal");
-    wrapper.insertAdjacentHTML("afterbegin", `<button class="n-modal__close" aria-label="${options.closeLabel || trigger?.dataset.closeLabel || 'Close'}" data-close-text="${options.closeText || trigger?.dataset.closeText || '⨯'}"></button><div class="n-modal__content"></div>`);
+    wrapper.insertAdjacentHTML("afterbegin", `<button class="n-modal__close" aria-label="${options.closeLabel || trigger?.dataset.closeLabel || 'Close'}" data-close-text="${options.closeText || trigger?.dataset.closeText || '╳'}"></button><div class="n-modal__content"></div>`);
     wrapper.onclick = (e) => {
       let el = e.target.closest('.n-modal');
       let button = e.target.closest('.n-modal__close');
