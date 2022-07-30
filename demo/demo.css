@@ -29,6 +29,7 @@ body {
 }
 body main {
   width: 70ch;
+  max-width: 100%;
 }
 
 aside div {
@@ -92,13 +93,6 @@ form button {
   font-weight: normal;
   vertical-align: super;
   position: absolute;
-}
-
-[dir=rtl] h1:after {
-  display: none;
-}
-[dir=rtl] h1:before {
-  display: unset;
 }
 
 [href*=".min.css"]:after,

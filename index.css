@@ -48,6 +48,9 @@
   padding-bottom: 1.25rem;
   font-weight: normal;
 }
+.n-modal > .n-modal__close:before {
+  content: "⨯";
+}
 .n-modal.n-modal--full {
   margin: auto;
   width: 100%;
