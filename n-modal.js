@@ -164,7 +164,8 @@ var componentModal = (function() {
     };
   }
 
-  function openModal(options) { // options: {content: "", animation: "", trigger: element}
+  function openModal(options) {
+    // options: {content: ""/element, animation: "", trigger: element, closeText: "", closeLabel: ""}
     // content is either an HTML string or an element
     let animation = options.animation;
     let content = options.content;
@@ -172,7 +173,7 @@ var componentModal = (function() {
     var wrapper = document.createElement("dialog");
     wrapper.dataset.anim = animation;
     wrapper.classList.add("n-modal");
-    wrapper.insertAdjacentHTML("afterbegin", `<button class="n-modal__close" aria-label="${trigger?.dataset.closeLabel || 'Close'}" data-close-text="${trigger?.dataset.closeText || '⨯'}"></button><div class="n-modal__content"></div>`);
+    wrapper.insertAdjacentHTML("afterbegin", `<button class="n-modal__close" aria-label="${options.closeLabel || trigger?.dataset.closeLabel || 'Close'}" data-close-text="${options.closeText || trigger?.dataset.closeText || '⨯'}"></button><div class="n-modal__content"></div>`);
     wrapper.onclick = (e) => {
       let el = e.target.closest('.n-modal');
       let button = e.target.closest('.n-modal__close');
@@ -240,7 +241,7 @@ var componentModal = (function() {
     // Modal window of external file content
     var el = e.target;
     let trigger = el.closest(".n-modal-link");
-    var link = trigger.href;
+    var link = trigger.dataset.href || trigger.href; // data-href for <button>, href for <a>
     var animation = trigger.dataset.anim;
     var request = new XMLHttpRequest();
     request.open("GET", link.split("#")[0], true);
@@ -262,7 +263,7 @@ var componentModal = (function() {
         // Error
         parsed = '⚠️';
       }
-      openModal({content: parsed, animation: animation, trigger: trigger}); // To do: If .modal[data-animation], pass it to openModal() as second parameter. Also in openLightbox().
+      openModal({ content: parsed, animation: animation, trigger: trigger }); // To do: If .modal[data-animation], pass it to openModal() as second parameter. Also in openLightbox().
       transferClass(trigger, document.querySelector(".n-modal"), ["n-modal--limited", "n-modal--full", "n-modal--rounded", "n-modal--shadow"]);
     };
     request.onerror = () => {
@@ -274,12 +275,12 @@ var componentModal = (function() {
   }
   let init = (host) => {
     // Modal window: open a link's target inside it
-    host.querySelectorAll("a.n-modal-link[href]:not([data-ready])").forEach((el) => {
+    host.querySelectorAll(".n-modal-link:not([data-ready])").forEach((el) => {
       if (el.href !== location.href.split("#")[0] + "#") {
         // Is it an empty anchor?
         el.onclick = modalWindowLink;
       }
-      if (!el.getAttribute("rel")) {
+      if (el.href && !el.getAttribute("rel")) {
         el.setAttribute("rel", "prefetch");
       }
       el.dataset.ready = true;
