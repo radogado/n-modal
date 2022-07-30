@@ -164,12 +164,15 @@ var componentModal = (function() {
     };
   }
 
-  function openModal(content, animation) {
+  function openModal(options) { // options: {content: "", animation: "", trigger: element}
     // content is either an HTML string or an element
+    let animation = options.animation;
+    let content = options.content;
+    let trigger = options.trigger;
     var wrapper = document.createElement("dialog");
     wrapper.dataset.anim = animation;
     wrapper.classList.add("n-modal");
-    wrapper.insertAdjacentHTML("afterbegin", `<button class="n-modal__close" aria-label="Close"></button><div class="n-modal__content"></div>`);
+    wrapper.insertAdjacentHTML("afterbegin", `<button class="n-modal__close" aria-label="${trigger?.dataset.closeLabel || 'Close'}" data-close-text="${trigger?.dataset.closeText || '⨯'}"></button><div class="n-modal__content"></div>`);
     wrapper.onclick = (e) => {
       let el = e.target.closest('.n-modal');
       let button = e.target.closest('.n-modal__close');
@@ -236,8 +239,9 @@ var componentModal = (function() {
   function modalWindowLink(e) {
     // Modal window of external file content
     var el = e.target;
-    var link = el.closest(".n-modal-link").href;
-    var animation = el.closest(".n-modal-link").dataset.anim;
+    let trigger = el.closest(".n-modal-link");
+    var link = trigger.href;
+    var animation = trigger.dataset.anim;
     var request = new XMLHttpRequest();
     request.open("GET", link.split("#")[0], true);
     request.onload = () => {
@@ -254,11 +258,12 @@ var componentModal = (function() {
         } else {
           parsed = parsed.innerHTML;
         }
-        openModal(parsed, animation); // To do: If .modal[data-animation], pass it to openModal() as second parameter. Also in openLightbox().
-        transferClass(el.closest(".n-modal-link"), document.querySelector(".n-modal"), ["n-modal--limited", "n-modal--full", "n-modal--rounded", "n-modal--shadow"]);
       } else {
         // Error
+        parsed = '⚠️';
       }
+      openModal({content: parsed, animation: animation, trigger: trigger}); // To do: If .modal[data-animation], pass it to openModal() as second parameter. Also in openLightbox().
+      transferClass(trigger, document.querySelector(".n-modal"), ["n-modal--limited", "n-modal--full", "n-modal--rounded", "n-modal--shadow"]);
     };
     request.onerror = () => {
       // Error

@@ -49,7 +49,7 @@
   font-weight: normal;
 }
 .n-modal > .n-modal__close:before {
-  content: "⨯";
+  content: attr(data-close-text);
 }
 .n-modal.n-modal--full {
   margin: auto;
@@ -73,7 +73,7 @@
   border-radius: 0.5ch;
 }
 .n-modal--rounded .n-modal__close {
-  border-radius: 50%;
+  border-radius: 20px;
 }
 .n-modal > * {
   background: var(--bg, #fff);
