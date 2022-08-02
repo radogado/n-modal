@@ -26,9 +26,13 @@
   }
 }
 .n-modal__content {
+  display: none;
   overflow: auto;
   background: transparent;
   text-align: initial;
+}
+.n-modal > .n-modal__content {
+  display: revert;
 }
 .n-modal > .n-modal__close {
   min-width: 40px;

@@ -140,10 +140,19 @@ var componentModal = (function() {
   var previousScrollY = 0;
   const animation_duration = window.matchMedia("(prefers-reduced-motion: no-preference)").matches ? 200 : 0;
   let removeModal = modal => {
-    if (modal.dataset.existingAttachedContent) {
-      modal.replaceWith(modal.lastChild.firstElementChild);
+    if (modal.dataset.attachedHiddenContent) {
+      modal.replaceWith(modal.lastChild);
     } else {
-      modal.remove();
+      if (modal.dataset.existingAttachedContent) {
+        modal.replaceWith(modal.lastChild.firstElementChild);
+      } else {
+        if (modal.dataset.existingModal) {
+          delete modal.dataset.existingModal;
+          delete modal.dataset.anim;
+        } else {
+          modal.remove();
+        }
+      }
     }
   }
 
@@ -170,10 +179,41 @@ var componentModal = (function() {
     let animation = options.animation;
     let content = options.content;
     let trigger = options.trigger;
-    var wrapper = document.createElement("dialog");
+    var wrapper;
+    if (typeof content === 'object' && content.tagName === 'DIALOG') {
+      wrapper = content;
+      wrapper.dataset.existingModal = true;
+    } else {
+      wrapper = document.createElement("dialog");
+      wrapper.insertAdjacentHTML("afterbegin", `<button class="n-modal__close" aria-label="${options.closeLabel || trigger?.dataset.closeLabel || 'Close'}" data-close-text="${options.closeText || trigger?.dataset.closeText || '╳'}"></button><div class="n-modal__content"></div>`);
+      let modal_content = document.createElement("div");
+      if (typeof content === "string") {
+        wrapper.lastChild.innerHTML = content;
+        document.body.appendChild(wrapper);
+      } else {
+        let parent = content.parentElement;
+        wrapper.dataset.existingContent = true;
+        if (parent) {
+          let marker = document.createElement('div');
+          content.replaceWith(marker);
+          wrapper.lastChild.appendChild(content);
+          marker.replaceWith(wrapper);
+          wrapper.dataset.existingAttachedContent = true;
+
+          if (content.classList.contains('n-modal__content')) {
+            wrapper.lastChild.replaceWith(content);
+            wrapper.dataset.attachedHiddenContent = true;
+          }
+
+        } else {
+          wrapper.lastChild.appendChild(content);
+          document.body.appendChild(wrapper);
+        }
+      }
+
+    }
     wrapper.dataset.anim = animation;
     wrapper.classList.add("n-modal");
-    wrapper.insertAdjacentHTML("afterbegin", `<button class="n-modal__close" aria-label="${options.closeLabel || trigger?.dataset.closeLabel || 'Close'}" data-close-text="${options.closeText || trigger?.dataset.closeText || '╳'}"></button><div class="n-modal__content"></div>`);
     wrapper.onclick = (e) => {
       let el = e.target.closest('.n-modal');
       let button = e.target.closest('.n-modal__close');
@@ -182,24 +222,6 @@ var componentModal = (function() {
       }
     };
     wrapper.addEventListener("keydown", closeByEsc);
-    let modal_content = document.createElement("div");
-    if (typeof content === "string") {
-      wrapper.lastChild.innerHTML = content;
-      document.body.appendChild(wrapper);
-    } else {
-      let parent = content.parentElement;
-      wrapper.dataset.existingContent = true;
-      if (parent) {
-        let marker = document.createElement('div');
-        content.replaceWith(marker);
-        wrapper.lastChild.appendChild(content);
-        marker.replaceWith(wrapper);
-        wrapper.dataset.existingAttachedContent = true;
-      } else {
-        wrapper.lastChild.appendChild(content);
-        document.body.appendChild(wrapper);
-      }
-    }
     wrapper.showModal();
     nuiDisableBodyScroll(true, wrapper); // Turn on and block page scroll
     if (document.querySelectorAll(".n-modal").length === 1) {
@@ -227,7 +249,7 @@ var componentModal = (function() {
     wrapper.addEventListener('close', e => {
       removeModal(e.target);
     });
-    return false;
+    return wrapper;
   }
 
   function parseHTML(str) {
@@ -263,8 +285,8 @@ var componentModal = (function() {
         // Error
         parsed = '⚠️';
       }
-      openModal({ content: parsed, animation: animation, trigger: trigger }); // To do: If .modal[data-animation], pass it to openModal() as second parameter. Also in openLightbox().
-      transferClass(trigger, document.querySelector(".n-modal"), ["n-modal--limited", "n-modal--full", "n-modal--rounded", "n-modal--shadow"]);
+      
+      transferClass(trigger, openModal({ content: parsed, animation: animation, trigger: trigger }), ["n-modal--limited", "n-modal--full", "n-modal--rounded", "n-modal--shadow"]);
     };
     request.onerror = () => {
       // Error
