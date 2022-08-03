@@ -139,7 +139,9 @@ var componentModal = (function() {
   var previousScrollX = 0;
   var previousScrollY = 0;
   const animation_duration = window.matchMedia("(prefers-reduced-motion: no-preference)").matches ? 200 : 0;
-  let removeModal = modal => {
+  let removeModal = e => {
+    // console.log(modal);
+    let modal = e.target;
     if (modal.dataset.attachedHiddenContent) {
       modal.replaceWith(modal.lastChild);
     } else {
@@ -169,6 +171,11 @@ var componentModal = (function() {
     }
     modal.animate(JSON.parse(animation), { duration: animation_duration, direction: direction_option, easing: "ease-in-out" }).onfinish = () => {
       nuiDisableBodyScroll(false, modal); // Turn off and restore page scroll
+      if (modal.dataset.existingModal) {
+        modal.removeEventListener('close', removeModal);
+        delete modal.dataset.existingModal;
+        delete modal.dataset.anim;
+      }
       modal.close();
     };
   }
@@ -246,9 +253,7 @@ var componentModal = (function() {
         easing: "ease-in-out",
       });
     }
-    wrapper.addEventListener('close', e => {
-      removeModal(e.target);
-    });
+    wrapper.addEventListener('close', removeModal);
     return wrapper;
   }
 
