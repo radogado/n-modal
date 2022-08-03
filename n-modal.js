@@ -265,34 +265,40 @@ var componentModal = (function() {
     let trigger = el.closest(".n-modal-link");
     var link = trigger.dataset.href || trigger.href; // data-href for <button>, href for <a>
     var animation = trigger.dataset.anim;
-    var request = new XMLHttpRequest();
-    request.open("GET", link.split("#")[0], true);
-    request.onload = () => {
-      if (request.status >= 200 && request.status < 400) {
-        // Success
-        if (!request.responseText) {
-          window.open(link, "Modal");
-          return false;
-        }
-        var parsed = parseHTML(request.responseText);
-        var container = !!link.split("#")[1] ? "#" + link.split("#")[1] : 0;
-        if (container && parsed.querySelector(container)) {
-          parsed = parsed.querySelector(container).innerHTML;
+    const openTheModal = content => transferClass(trigger, openModal({ content: content, animation: animation, trigger: trigger }), ["n-modal--limited", "n-modal--full", "n-modal--rounded", "n-modal--shadow"]);
+
+    if (trigger.dataset.for) {
+      openTheModal(document.getElementById(trigger.dataset.for));
+    } else {
+      var request = new XMLHttpRequest();
+      request.open("GET", link.split("#")[0], true);
+      request.onload = () => {
+        if (request.status >= 200 && request.status < 400) {
+          // Success
+          if (!request.responseText) {
+            window.open(link, "Modal");
+            return false;
+          }
+          var parsed = parseHTML(request.responseText);
+          var container = !!link.split("#")[1] ? "#" + link.split("#")[1] : 0;
+          if (container && parsed.querySelector(container)) {
+            parsed = parsed.querySelector(container).innerHTML;
+          } else {
+            parsed = parsed.innerHTML;
+          }
         } else {
-          parsed = parsed.innerHTML;
+          // Error
+          parsed = '⚠️';
         }
-      } else {
+
+        openTheModal(parsed);
+      };
+      request.onerror = () => {
         // Error
-        parsed = '⚠️';
-      }
-      
-      transferClass(trigger, openModal({ content: parsed, animation: animation, trigger: trigger }), ["n-modal--limited", "n-modal--full", "n-modal--rounded", "n-modal--shadow"]);
-    };
-    request.onerror = () => {
-      // Error
-      window.open(link, "_blank");
-    };
-    request.send();
+        window.open(link, "_blank");
+      };
+      request.send();
+    }
     return false;
   }
   let init = (host) => {

@@ -27,16 +27,21 @@
 		<h2>Demo</h2>
 		<section>
 			<!-- <dialog open>Open Dialog</dialog> -->
-			<form method="dialog"> <input type="submit" value="Dialog form"></form>
-			<dialog class="n-modal n-modal--rounded">
+			<form method="dialog">
+				<button>Close by form method "dialog"</button>
+			</form>
+			<dialog class="n-modal n-modal--rounded" id="modal1">
 				<button class="n-modal__close" aria-label="Fermer" data-close-text="Schliessen"></button>
 				<div class="n-modal__content">
 					<p>Originally hidden, attached full modal.</p>
 				</div>
 			</dialog>
-			<div class="n-modal__content">
+			<div class="n-modal__content" id="modal2">
 				<p>Originally hidden, attached modal content only.</p>
 			</div>
+			
+			<button class="n-modal-link" data-for="modal1">Open an attached, hidden full modal</button>
+			<button class="n-modal-link" data-for="modal2">Open an attached, hidden modal content</button>
 			<div class="n-row">
 				<div>
 					<p><button data-href="index.html#sidebar" class="n-modal-link" data-close-label="Fermer" data-close-text="Schliessen">Open a modal window inside this</button></p>
