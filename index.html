@@ -19,7 +19,7 @@
 
 	<main>
 		<h1 class="headline-version">Native Modal</h1>
-		<h2>Native modal window component with enhancements and customisation</h2>
+		<h2 id="modal3">Native modal window component with enhancements and customisation</h2>
 		<ul>
 			<li>First feature</li>
 			<li>Second feature</li>
@@ -41,10 +41,13 @@
 			</div>
 			
 			<button class="n-modal-link" data-for="modal1">Open an attached, hidden full modal</button>
-			<button class="n-modal-link" data-for="modal2">Open an attached, hidden modal content</button>
+			<button class="n-modal-link" data-for="modal2">Open attached, hidden modal content</button>
+			<button class="n-modal-link" data-for="modal3">Open attached, visible content</button>
+			<button onclick="var p = document.createElement('p'); p.innerText = 'Unattached paragraph element'; nModalOpen({content: p})">Open a modal with content from an unattached element</button>
+			<button onclick="nModalOpen({content: 'a modal with content from an text string'})">Open a modal with content from a text string</button>
 			<div class="n-row">
 				<div>
-					<p><button data-href="index.html#sidebar" class="n-modal-link" data-close-label="Fermer" data-close-text="Schliessen">Open a modal window inside this</button></p>
+					<p><button data-href="index.html#sidebar" class="n-modal-link" data-close-label="Fermer" data-close-text="Schliessen">Open a modal with external file content, from a button</button></p>
 					<p><a target="_blank" href="index.html#sidebar" class="n-modal-link" data-close-label="Fermer">Open a modal window inside this <span>tab</span></a>.</p>
 					<div class="code">
 						<pre class=" language-markup" tabindex="0"><code class=" language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>external.html#content<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>n-modal-link<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Open a modal window here.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span></code>

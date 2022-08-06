@@ -139,7 +139,8 @@
     margin-top: .75rem;
 
     &::backdrop {
-      display: none;
+      opacity: 0;
+      animation: none;
     }
   }
 

@@ -142,14 +142,14 @@ var componentModal = (function() {
   let removeModal = e => {
     // console.log(modal);
     let modal = e.target;
-    if (modal.dataset.attachedHiddenContent) {
+    if (modal.attachedHiddenContent) {
       modal.replaceWith(modal.lastChild);
     } else {
-      if (modal.dataset.existingAttachedContent) {
+      if (modal.existingAttachedContent) {
         modal.replaceWith(modal.lastChild.firstElementChild);
       } else {
-        if (modal.dataset.existingModal) {
-          delete modal.dataset.existingModal;
+        if (modal.existingModal) {
+          delete modal.existingModal;
           delete modal.dataset.anim;
         } else {
           modal.remove();
@@ -171,9 +171,9 @@ var componentModal = (function() {
     }
     modal.animate(JSON.parse(animation), { duration: animation_duration, direction: direction_option, easing: "ease-in-out" }).onfinish = () => {
       nuiDisableBodyScroll(false, modal); // Turn off and restore page scroll
-      if (modal.dataset.existingModal) {
+      if (modal.existingModal) {
         modal.removeEventListener('close', removeModal);
-        delete modal.dataset.existingModal;
+        delete modal.existingModal;
         delete modal.dataset.anim;
       }
       modal.close();
@@ -189,7 +189,7 @@ var componentModal = (function() {
     var wrapper;
     if (typeof content === 'object' && content.tagName === 'DIALOG') {
       wrapper = content;
-      wrapper.dataset.existingModal = true;
+      wrapper.existingModal = true;
     } else {
       wrapper = document.createElement("dialog");
       wrapper.insertAdjacentHTML("afterbegin", `<button class="n-modal__close" aria-label="${options.closeLabel || trigger?.dataset.closeLabel || 'Close'}" data-close-text="${options.closeText || trigger?.dataset.closeText || '╳'}"></button><div class="n-modal__content"></div>`);
@@ -199,17 +199,16 @@ var componentModal = (function() {
         document.body.appendChild(wrapper);
       } else {
         let parent = content.parentElement;
-        wrapper.dataset.existingContent = true;
         if (parent) {
           let marker = document.createElement('div');
           content.replaceWith(marker);
           wrapper.lastChild.appendChild(content);
           marker.replaceWith(wrapper);
-          wrapper.dataset.existingAttachedContent = true;
+          wrapper.existingAttachedContent = true;
 
           if (content.classList.contains('n-modal__content')) {
             wrapper.lastChild.replaceWith(content);
-            wrapper.dataset.attachedHiddenContent = true;
+            wrapper.attachedHiddenContent = true;
           }
 
         } else {

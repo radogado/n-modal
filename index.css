@@ -68,7 +68,8 @@
   }
 }
 .n-modal.n-modal--shadow::backdrop {
-  display: none;
+  opacity: 0;
+  animation: none;
 }
 .n-modal--rounded {
   border-radius: 0.5ch;
