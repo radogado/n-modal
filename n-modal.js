@@ -129,13 +129,6 @@ var componentModal = (function() {
   //     firstFocusableElement.focus();
   //   };
   // 
-  function closeByEsc(e) {
-    if (e.keyCode === 27) {
-      // Esc
-      e.preventDefault();
-      closeModal(e.target.closest('.n-modal'));
-    }
-  }
   var previousScrollX = 0;
   var previousScrollY = 0;
   const animation_duration = window.matchMedia("(prefers-reduced-motion: no-preference)").matches ? 200 : 0;
@@ -227,7 +220,10 @@ var componentModal = (function() {
         closeModal(el);
       }
     };
-    wrapper.addEventListener("keydown", closeByEsc);
+    wrapper.addEventListener("cancel", e => {
+      e.preventDefault();
+      closeModal(e.target.closest('.n-modal'));
+    });
     wrapper.showModal();
     nuiDisableBodyScroll(true, wrapper); // Turn on and block page scroll
     if (document.querySelectorAll(".n-modal").length === 1) {
