@@ -301,7 +301,7 @@ var componentModal = (function() {
     }
     return false;
   }
-  let init = (host) => {
+  let init = (host = document) => {
     // Modal window: open a link's target inside it
     host.querySelectorAll(".n-modal-link:not([data-ready])").forEach((el) => {
       if (el.href !== location.href.split("#")[0] + "#") {
@@ -313,9 +313,13 @@ var componentModal = (function() {
       }
       el.dataset.ready = true;
     });
-    window.nModalOpen = openModal;
+
+
   };
-  typeof registerComponent === "function" ? registerComponent("n-modal", init) : init(document);
+  window.nui = typeof window.nui === 'undefined' ? {} : window.nui;
+  nui.modal = openModal;
+  nui.modal.init = init;
+  typeof registerComponent === "function" ? registerComponent("n-modal", init) : init(); // Is it a part of niui, or standalone?
   return { closeModal, openModal };
   /* Modal – end */
 })();
