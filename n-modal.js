@@ -176,6 +176,10 @@ var componentModal = (function() {
   function openModal(options) {
     // options: {content: ""/element, animation: "", trigger: element, closeText: "", closeLabel: ""}
     // content is either an HTML string or an element
+    // options can be solely content if it's a string or element
+    if (typeof options === 'string' || !!options.tagName) {
+      options = {content: options};
+    }
     let animation = options.animation;
     let content = options.content;
     let trigger = options.trigger;

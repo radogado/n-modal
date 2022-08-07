@@ -43,8 +43,8 @@
 			<button class="n-modal-link" data-for="modal1">Open an attached, hidden full modal</button>
 			<button class="n-modal-link" data-for="modal2">Open attached, hidden modal content</button>
 			<button class="n-modal-link" data-for="modal3">Open attached, visible content</button>
-			<button onclick="var p = document.createElement('p'); p.innerText = 'Unattached paragraph element'; nui.modal({content: p})">Open a modal with content from an unattached element</button>
-			<button onclick="nui.modal({content: 'a modal with content from an text string'})">Open a modal with content from a text string</button>
+			<button onclick="var p = document.createElement('p'); p.innerText = 'Unattached paragraph element'; nui.modal(p)">Open a modal with content from an unattached element</button>
+			<button onclick="nui.modal('a modal with content from an text string')">Open a modal with content from a text string</button>
 			<div class="n-row">
 				<div>
 					<p><button data-href="index.html#sidebar" class="n-modal-link" data-close-label="Fermer" data-close-text="Schliessen">Open a modal with external file content, from a button</button></p>
