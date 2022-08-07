@@ -26,6 +26,7 @@
   }
 }
 .n-modal__content {
+  overscroll-behavior: none;
   display: none;
   overflow: auto;
   background: transparent;

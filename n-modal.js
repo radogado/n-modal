@@ -153,7 +153,6 @@ var componentModal = (function() {
 
   function closeModal(modal) {
     window.scrollTo(previousScrollX, previousScrollY);
-    document.querySelector("html").classList.remove("no-scroll");
     let direction_option = "normal";
     var animation = modal.dataset.anim; // Custom animation?
     if (animation.length < 11) {
@@ -170,6 +169,7 @@ var componentModal = (function() {
         delete modal.dataset.anim;
       }
       modal.close();
+      document.querySelector("html").classList.remove("no-scroll");
     };
   }
 
@@ -178,7 +178,7 @@ var componentModal = (function() {
     // content is either an HTML string or an element
     // options can be solely content if it's a string or element
     if (typeof options === 'string' || !!options.tagName) {
-      options = {content: options};
+      options = { content: options };
     }
     let animation = options.animation;
     let content = options.content;

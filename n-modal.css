@@ -26,6 +26,7 @@
   }
 }
 .n-modal__content {
+  overscroll-behavior: none;
   display: none;
   overflow: auto;
   background: transparent;
@@ -96,3 +97,5 @@ _:future,
     opacity: 1;
   }
 }
+
+/*# sourceMappingURL=n-modal.css.map */
