@@ -183,6 +183,11 @@ var componentModal = (function() {
     }
     let animation = options.animation;
     let content = options.content;
+    
+    if (content.parentNode && content.parentNode.tagName === 'DIALOG') {
+      return;
+    }
+    
     let trigger = options.trigger;
     var wrapper;
     if (typeof content === 'object' && content.tagName === 'DIALOG') {
@@ -237,23 +242,12 @@ var componentModal = (function() {
       previousScrollY = window.scrollY;
     }
     document.querySelector("html").classList.add("no-scroll");
-    if (wrapper.classList.contains("n-full-screen")) {
-      if (wrapper.webkitRequestFullScreen) {
-        wrapper.webkitRequestFullScreen();
-      }
-      if (wrapper.mozRequestFullScreen) {
-        wrapper.mozRequestFullScreen();
-      }
-      if (wrapper.requestFullScreen) {
-        wrapper.requestFullScreen();
-      }
-    } else {
-      wrapper.animate(typeof animation === "string" ? JSON.parse(animation) : [{ transform: "translate3d(0,-100vh,0)" }, { transform: "translate3d(0,0,0)" }], {
-        duration: animation_duration,
-        easing: "ease-in-out",
-      });
-    }
-    wrapper.addEventListener('close', removeModal);
+    wrapper.animate(typeof animation === "string" ? JSON.parse(animation) : [{ transform: "translate3d(0,-100vh,0)" }, { transform: "translate3d(0,0,0)" }], {
+      duration: animation_duration,
+      easing: "ease-in-out",
+    }).onfinish = () => {
+      wrapper.addEventListener('close', removeModal);
+    };
     return wrapper;
   }
 
