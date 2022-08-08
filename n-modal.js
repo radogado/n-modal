@@ -152,7 +152,6 @@ var componentModal = (function() {
   }
 
   function closeModal(modal) {
-    window.scrollTo(previousScrollX, previousScrollY);
     let direction_option = "normal";
     var animation = modal.dataset.anim; // Custom animation?
     if (animation.length < 11) {
@@ -170,6 +169,7 @@ var componentModal = (function() {
       }
       modal.close();
       document.querySelector("html").classList.remove("no-scroll");
+      window.scrollTo(previousScrollX, previousScrollY);
     };
   }
 
@@ -274,34 +274,19 @@ var componentModal = (function() {
     if (trigger.dataset.for) {
       openTheModal(document.getElementById(trigger.dataset.for));
     } else {
-      var request = new XMLHttpRequest();
-      request.open("GET", link.split("#")[0], true);
-      request.onload = () => {
-        if (request.status >= 200 && request.status < 400) {
-          // Success
-          if (!request.responseText) {
-            window.open(link, "Modal");
-            return false;
-          }
-          var parsed = parseHTML(request.responseText);
+      fetch(link.split("#")[0]).then(response => response.text())
+        .then(response => {
+          var parsed = parseHTML(response);
           var container = !!link.split("#")[1] ? "#" + link.split("#")[1] : 0;
           if (container && parsed.querySelector(container)) {
             parsed = parsed.querySelector(container).innerHTML;
           } else {
             parsed = parsed.innerHTML;
           }
-        } else {
-          // Error
-          parsed = '⚠️';
-        }
-
-        openTheModal(parsed);
-      };
-      request.onerror = () => {
-        // Error
-        window.open(link, "_blank");
-      };
-      request.send();
+          openTheModal(parsed);
+        }).catch(error => {
+          openTheModal(error);
+        });
     }
     return false;
   }
