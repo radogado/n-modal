@@ -135,6 +135,7 @@ var componentModal = (function() {
   let removeModal = e => {
     // console.log(modal);
     let modal = e.target;
+    modal.removeEventListener('close', removeModal);
     if (modal.attachedHiddenContent) {
       modal.replaceWith(modal.lastChild);
     } else {
@@ -154,7 +155,7 @@ var componentModal = (function() {
   function closeModal(modal) {
     let direction_option = "normal";
     var animation = modal.dataset.anim; // Custom animation?
-    if (animation.length < 11) {
+    if (!animation || animation.length < 11) {
       // '', 'null' or 'undefined'?
       animation = '[{ "transform": "translate3d(0,0,0)" }, { "transform": "translate3d(0,-100%,0)" }]';
     } else {
@@ -269,7 +270,7 @@ var componentModal = (function() {
     let trigger = el.closest(".n-modal-link");
     var link = trigger.dataset.href || trigger.href; // data-href for <button>, href for <a>
     var animation = trigger.dataset.anim;
-    const openTheModal = content => transferClass(trigger, openModal({ content: content, animation: animation, trigger: trigger }), ["n-modal--limited", "n-modal--full", "n-modal--rounded", "n-modal--shadow", "n-full-screen"]);
+    const openTheModal = content => transferClass(trigger, openModal({ content: content, animation: animation, trigger: trigger }), ["n-modal--full", "n-modal--rounded", "n-modal--shadow"]);
 
     if (trigger.dataset.for) {
       openTheModal(document.getElementById(trigger.dataset.for));
