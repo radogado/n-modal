@@ -21,8 +21,15 @@
 		<h1 class="headline-version">Native Modal</h1>
 		<h2 id="modal3">Native modal window component with enhancements and customisation</h2>
 		<ul>
-			<li>First feature</li>
-			<li>Second feature</li>
+			<li>Native <b>&lt;dialog&gt;</b> element</li>
+			<li>Background scroll freeze</li>
+			<li>Customizable and mutable animation</li>
+			<li>Accessibility: labelled close button, keyboard control with focus trap</li>
+			<li>Multiple source options: HTML string, DOM element, external file</li>
+			<li>Easy to use: <b>nui.modal(content)</b>, anchor or button</li>
+			<li>Colour theme with CSS variables</li>
+			<li>Shadow and rounded edges options</li>
+			<li>Full window option</li>
 		</ul>
 		<h2>Demo</h2>
 		<section>
@@ -48,7 +55,7 @@
 			<div class="n-row">
 				<div>
 					<p><button data-href="index.html#sidebar" class="n-modal-link" data-close-label="Fermer" data-close-text="Schliessen">Open a modal with external file content, from a button</button></p>
-					<p><a target="_blank" href="index.html#sidebar" class="n-modal-link" data-close-label="Fermer">Open a modal window inside this <span>tab</span></a>.</p>
+					<p><a target="_blank" href="index.html#sidebar" class="n-modal-link n-full-screen" data-close-label="Fermer">Open a modal window inside this <span>tab</span></a>.</p>
 					<div class="code">
 						<pre class=" language-markup" tabindex="0"><code class=" language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>external.html#content<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>n-modal-link<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Open a modal window here.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span></code>
 			</pre>

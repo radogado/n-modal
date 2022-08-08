@@ -236,7 +236,7 @@ var componentModal = (function() {
       previousScrollY = window.scrollY;
     }
     document.querySelector("html").classList.add("no-scroll");
-    if (wrapper.querySelector(".n-full-screen")) {
+    if (wrapper.classList.contains("n-full-screen")) {
       if (wrapper.webkitRequestFullScreen) {
         wrapper.webkitRequestFullScreen();
       }
@@ -269,7 +269,7 @@ var componentModal = (function() {
     let trigger = el.closest(".n-modal-link");
     var link = trigger.dataset.href || trigger.href; // data-href for <button>, href for <a>
     var animation = trigger.dataset.anim;
-    const openTheModal = content => transferClass(trigger, openModal({ content: content, animation: animation, trigger: trigger }), ["n-modal--limited", "n-modal--full", "n-modal--rounded", "n-modal--shadow"]);
+    const openTheModal = content => transferClass(trigger, openModal({ content: content, animation: animation, trigger: trigger }), ["n-modal--limited", "n-modal--full", "n-modal--rounded", "n-modal--shadow", "n-full-screen"]);
 
     if (trigger.dataset.for) {
       openTheModal(document.getElementById(trigger.dataset.for));
@@ -327,4 +327,3 @@ var componentModal = (function() {
   return { closeModal, openModal };
   /* Modal – end */
 })();
-// To do: disable page scroll by arrow keys

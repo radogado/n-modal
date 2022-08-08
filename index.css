@@ -58,6 +58,11 @@
   width: 100%;
   width: calc(100vw - 2 * env(safe-area-inset-left));
   height: 100%;
+  box-shadow: 0 0 0 6px var(--bg, black);
+}
+.n-modal.n-modal--full::backdrop {
+  opacity: 0;
+  animation: none;
 }
 .n-modal.n-modal--shadow {
   box-shadow: 0 0 0.25rem 0.125rem rgba(0, 0, 0, 0.5);

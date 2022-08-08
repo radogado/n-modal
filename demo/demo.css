@@ -56,8 +56,8 @@ h1 {
 
 h2 {
   font-size: 1.5rem;
-  padding: calc(1.5rem/2) 0;
-  line-height: 3rem;
+  padding: calc(1.5rem/3) 0;
+  line-height: 1.5rem;
 }
 
 h3 {
@@ -74,7 +74,7 @@ a[href] {
   color: inherit;
 }
 
-button, button {
+button {
   appearance: none;
   -webkit-appearance: none;
   border: none;
