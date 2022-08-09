@@ -264,7 +264,7 @@ var componentModal = (function() {
     let trigger = el.closest(".n-modal-link");
     var link = trigger.dataset.href || trigger.href; // data-href for <button>, href for <a>
     var animation = trigger.dataset.anim;
-    const openTheModal = content => transferClass(trigger, openModal({ content: content, animation: animation, trigger: trigger }), ["n-modal--full", "n-modal--rounded", "n-modal--shadow"]);
+    const openTheModal = content => transferClass(trigger, openModal({ content: content, animation: animation, trigger: trigger }), ["n-modal--full", "n-modal--rounded", "n-modal--shadow", "n-modal--blur"]);
 
     if (trigger.dataset.for) {
       openTheModal(document.getElementById(trigger.dataset.for));

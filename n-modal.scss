@@ -129,6 +129,7 @@
     width: calc(100vw - 2 * env(safe-area-inset-left));
     height: 100%;
     box-shadow: 0 0 0 6px var(--bg, black);
+
     &::backdrop {
       opacity: 0;
       animation: none;
@@ -147,6 +148,14 @@
     &::backdrop {
       opacity: 0;
       animation: none;
+    }
+  }
+
+  &.n-modal--blur {
+    &::backdrop {
+      background: none;
+      animation: none;
+      backdrop-filter: blur(1rem);
     }
   }
 

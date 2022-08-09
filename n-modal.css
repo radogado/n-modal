@@ -77,6 +77,11 @@
   opacity: 0;
   animation: none;
 }
+.n-modal.n-modal--blur::backdrop {
+  background: none;
+  animation: none;
+  backdrop-filter: blur(1rem);
+}
 .n-modal--rounded {
   border-radius: 0.5ch;
 }
