@@ -183,11 +183,14 @@ var componentModal = (function() {
     }
     let animation = options.animation;
     let content = options.content;
-    
-    if (content.parentNode && content.parentNode.tagName === 'DIALOG') {
-      return;
+
+    if (content.parentNode) {
+      // console.log(content.parentNode);
+      if (content.parentNode.tagName === 'DIALOG' || content.parentNode.classList.contains('n-modal__content')) {
+        return;
+      }
     }
-    
+
     let trigger = options.trigger;
     var wrapper;
     if (typeof content === 'object' && content.tagName === 'DIALOG') {
