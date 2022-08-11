@@ -224,6 +224,17 @@ var componentModal = (function() {
       }
 
     }
+    
+    if (options.blur) {
+      wrapper.classList.add('n-modal--blur');
+    }
+    if (options.shadow) {
+      wrapper.classList.add('n-modal--shadow');
+    }
+    if (options.rounded) {
+      wrapper.classList.add('n-modal--rounded');
+    }
+    
     wrapper.dataset.anim = animation;
     wrapper.classList.add("n-modal");
     wrapper.onclick = (e) => {
