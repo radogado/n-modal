@@ -10,6 +10,9 @@
     overflow: hidden;
     -webkit-overflow-scrolling: auto;
   }
+  body {
+    scrollbar-gutter: stable;
+  }
 }
 
 // html.n-full-screen {

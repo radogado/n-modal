@@ -6,6 +6,9 @@
   overflow: hidden;
   -webkit-overflow-scrolling: auto;
 }
+.no-scroll body {
+  scrollbar-gutter: stable;
+}
 
 .n-modal {
   background: var(--bg, #fff);
