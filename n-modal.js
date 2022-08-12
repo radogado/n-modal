@@ -139,7 +139,7 @@ var componentModal = (function() {
     if (modal.attachedHiddenContent) {
       modal.replaceWith(modal.lastChild);
     } else {
-      if (modal.existingAttachedContent) {
+      if (modal.dataset.existingAttachedContent) {
         modal.replaceWith(modal.lastChild.firstElementChild);
       } else {
         if (modal.existingModal) {
@@ -162,7 +162,7 @@ var componentModal = (function() {
       direction_option = "reverse";
     }
     modal.animate(JSON.parse(animation), { duration: animation_duration, direction: direction_option, easing: "ease-in-out" }).onfinish = () => {
-      nuiDisableBodyScroll(false, modal); // Turn off and restore page scroll
+      // nuiDisableBodyScroll(false, modal); // Turn off and restore page scroll
       if (modal.existingModal) {
         modal.removeEventListener('close', removeModal);
         delete modal.existingModal;
@@ -210,7 +210,7 @@ var componentModal = (function() {
           content.replaceWith(marker);
           wrapper.lastChild.appendChild(content);
           marker.replaceWith(wrapper);
-          wrapper.existingAttachedContent = true;
+          wrapper.dataset.existingAttachedContent = true;
 
           if (content.classList.contains('n-modal__content')) {
             wrapper.lastChild.replaceWith(content);
@@ -249,7 +249,7 @@ var componentModal = (function() {
       closeModal(e.target.closest('.n-modal'));
     });
     wrapper.showModal();
-    nuiDisableBodyScroll(true, wrapper); // Turn on and block page scroll
+    // nuiDisableBodyScroll(true, wrapper); // Turn on and block page scroll
     if (document.querySelectorAll(".n-modal").length === 1) {
       // Sole (first) modal
       previousScrollX = window.scrollX;

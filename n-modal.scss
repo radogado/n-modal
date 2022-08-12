@@ -140,6 +140,17 @@
     }
   }
 
+  &[data-existing-attached-content] {
+    &::backdrop {
+      animation: none;
+      background: white;
+
+      @media (prefers-color-scheme: dark) {
+        background: black;
+      }
+    }
+  }
+
   &.n-modal--shadow {
     margin-top: .75rem;
     box-shadow: 0 0 .25rem .125rem rgba(0, 0, 0, .5);
