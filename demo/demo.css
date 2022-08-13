@@ -127,6 +127,7 @@ button {
   display: inline-block;
   width: 100%;
   direction: ltr;
+  margin-bottom: 3rem;
 }
 .code pre {
   padding: 0.75rem;

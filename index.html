@@ -19,9 +19,9 @@
 
 	<main>
 		<h1 class="headline-version">Native Modal</h1>
-		<h2 id="modal3">Native modal window component with enhancements and customisation</h2>
+		<h2 id="modal3">Native modal component with enhancements and customisation</h2>
 		<ul>
-			<li>Native <b>&lt;dialog&gt;</b> element</li>
+			<li>Based on the <b>&lt;dialog&gt;</b> element</li>
 			<li>Background scroll freeze</li>
 			<li>Customizable and mutable animation</li>
 			<li>Accessibility: labelled close button, keyboard control with focus trap</li>
@@ -31,12 +31,12 @@
 			<li>Shadow and rounded edges options</li>
 			<li>Full window option</li>
 		</ul>
-		<h2>Demo</h2>
+		<p><br></p>
+		<!-- <h2>Demo</h2> -->
 		<section>
-			<!-- <dialog open>Open Dialog</dialog> -->
-			<form method="dialog">
+			<!-- <form method="dialog">
 				<button>Close by form method "dialog"</button>
-			</form>
+			</form> -->
 			<dialog class="n-modal n-modal--rounded" id="modal1">
 				<button class="n-modal__close" aria-label="Fermer" data-close-text="Schliessen"></button>
 				<div class="n-modal__content">
@@ -46,75 +46,83 @@
 			<div class="n-modal__content" id="modal2">
 				<p>Originally hidden, attached modal content only.</p>
 			</div>
-			
-			<button class="n-modal-link" data-for="modal1">Open an attached, hidden full modal</button>
-			<button class="n-modal-link" data-for="modal2">Open attached, hidden modal content</button>
-			<button class="n-modal-link" data-for="modal3">Open attached, visible content</button>
-			<button onclick="var p = document.createElement('p'); p.innerText = 'Unattached paragraph element'; nui.modal(p)">Open a modal with content from an unattached element</button>
-			<button onclick="nui.modal('a modal with content from an text string')">Open a modal with content from a text string</button>
-			<div class="n-row">
-				<div>
-					<p><button data-href="index.html#sidebar" class="n-modal-link" data-close-label="Fermer" data-close-text="Schliessen">Open a modal with external file content, from a button</button></p>
-					<p><a target="_blank" href="index.html#sidebar" class="n-modal-link n-full-screen" data-close-label="Fermer">Open a modal window inside this <span>tab</span></a>.</p>
-					<div class="code">
-						<pre class=" language-markup" tabindex="0"><code class=" language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>external.html#content<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>n-modal-link<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Open a modal window here.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span></code>
-			</pre>
-					</div>
-				</div>
-				<!--
-									<div>
-			
-										<p><a href="//niui.net/external.html#content" class="n-modal-link">Show external domain content in a modal window</a>. On error, it will be opened in a tab, browser permitting.</p>
-			
-			<div class="code">							
-			
-			<pre><code class="language-markup">&lt;a href="//niui.net/external.html#content" class="n-modal-link"&gt;Open a modal window with external content.&lt;/a&gt;</code>
-			</pre>
-			
-			</div>						
-									</div>
-			-->
-				<div>
-					<p><a target="_blank" href="index.html" class="n-modal-link n-modal--rounded n-modal--shadow" data-anim="[{ &quot;opacity&quot;: 0 }, { &quot;opacity&quot;: 1 }]" data-close-text="Fermer">Open a modal window with custom animation</a>.</p>
-					<div class="code">
-						<pre class=" language-markup" tabindex="0"><code class=" language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>external.html#content<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>n-modal-link<span class="token punctuation">"</span></span> <span class="token attr-name">data-anim</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>0% { opacity: 0; } 100% { opacity: 1; }<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Open a modal window with custom animation.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span></code>
-			</pre>
-					</div>
-				</div>
-				<div>
-					<p><a target="_blank" href="index.html#content" class="n-modal-link n-modal--full">Full modal window</a>.</p>
-					<div class="code">
-						<pre class=" language-markup" tabindex="0"><code class=" language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>external.html#content<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>n-modal-link limited<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Open a modal window here.<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span></code>
-			</pre>
-					</div>
-				</div>
-				<div class="_1/1">
-					<h3>Options</h3>
-					<ul class="n-list">
-						<li>Open a modal window with any content using
-							<pre>nui.componentModal.openFullWindow("Any content");</pre>
-						</li>
-						<li>Modals with
-							<pre>id</pre> matching the URI hash are opened automatically
-						</li>
-						<li>
-							<pre>#content</pre> is recommended to avoid HTML head parts
-						</li>
-						<li>
-							<pre>nui.componentModal.openFullWindow(HTML, "0% { … } 100% { … }")</pre> for custom animation, automatically reversed on close
-						</li>
-						<li>
-							<pre>a.n-modal-link[data-anim]</pre> parameter specifies custom animation
-						</li>
-						<li>
-							<pre>a.n-modal-link.n-modal--full</pre> for full width/height modal window
-						</li>
-						<li>
-							<pre>a.n-modal-link.n-modal--rounded</pre>
-						</li>
-					</ul>
-				</div>
+
+			<button class="n-modal-link" data-for="modal1">Open an attached, hidden modal</button>
+
+			<div class="code">
+				<pre><code class="language-markup">&lt;dialog class=&quot;n-modal&quot; id=&quot;modal1&quot;&gt;
+	&lt;button class=&quot;n-modal__close&quot;&gt;&lt;/button&gt;
+	&lt;div class=&quot;n-modal__content&quot;&gt;
+		...
+	&lt;/div&gt;
+&lt;/dialog&gt;
+
+&lt;button class=&quot;n-modal-link&quot; data-for=&quot;modal1&quot;&gt;Open an attached, hidden modal&lt;/button&gt;</code></pre>
 			</div>
+
+			<button class="n-modal-link" data-for="modal2">Open a modal with attached, hidden content</button>
+
+			<div class="code">
+				<pre><code class="language-markup">&lt;div class=&quot;n-modal__content&quot; id=&quot;modal2&quot;&gt;
+	...
+&lt;/div&gt;
+	
+&lt;button class=&quot;n-modal-link&quot; data-for=&quot;modal2&quot;&gt;Open a modal with attached, hidden content&lt;/button&gt;</code></pre>
+			</div>
+
+			<button class="n-modal-link" data-for="modal3">Open attached, visible content</button>
+
+			<div class="code">
+				<pre><code class="language-markup">&lt;div id=&quot;modal3&quot;&gt;...&lt;/div&gt;
+
+&lt;button class=&quot;n-modal-link&quot; data-for=&quot;modal3&quot;&gt;Open attached, visible content&lt;/button&gt;</code></pre>
+			</div>
+
+			<script>
+				var p = document.createElement('p');
+				p.innerText = 'Unattached paragraph element';
+			</script>
+			<button onclick="nui.modal(p)">Open a modal with content from an unattached element</button>
+
+			<div class="code">
+				<pre><code class="language-markup">&lt;script&gt;let p = document.createElement(&apos;p&apos;); p.innerText = &apos;Unattached paragraph&apos;;&lt;/script&gt;
+
+&lt;button onclick=&quot;nui.modal(p)&quot;&gt;Open a modal with content from an unattached element&lt;/button&gt;</code></pre>
+			</div>
+
+			<button onclick="nui.modal('Content from a <b>text</b>/<b>HTML</b> string')">Open a modal with content from a text string</button>
+
+			<div class="code">
+				<pre><code class="language-markup">&lt;button onclick=&quot;nui.modal(&apos;&lt;b&gt;HTML&lt;/b&gt; string&apos;)&quot;&gt;Open a modal with content from a text/HTML string&lt;/button&gt;</code></pre>
+			</div>
+
+			<button data-href="index.html#sidebar" class="n-modal-link" data-close-label="Fermer" data-close-text="Schliessen">Open a modal with external file content via a button</button>
+
+			<div class="code">
+				<pre><code class="language-markup">&lt;button data-href=&quot;index.html#sidebar&quot; class=&quot;n-modal-link&quot;&gt;Open a modal with external file content via a button&lt;/button&gt;</code></pre>
+			</div>
+
+			<a target="_blank" href="index.html#sidebar" class="n-modal-link" data-close-label="Fermer">Open a modal with external file content</a>
+
+			<div class="code">
+				<pre><code class="language-markup">&lt;a target=&quot;_blank&quot; href=&quot;index.html#sidebar&quot; class=&quot;n-modal-link&quot;&gt;Open a modal with external file content&lt;/a&gt;</code></pre>
+			</div>
+
+			<a target="_blank" href="index.html" class="n-modal-link n-modal--rounded n-modal--shadow" data-anim="[{ &quot;opacity&quot;: 0 }, { &quot;opacity&quot;: 1 }]" data-close-text="Fermer">Open a modal with custom animation</a>
+
+			<div class="code">
+				<pre><code class=" language-markup">&lt;a target=&quot;_blank&quot; href=&quot;index.html&quot; class=&quot;n-modal-link&quot; data-anim=&quot;[{ &amp;quot;opacity&amp;quot;: 0 }, { &amp;quot;opacity&amp;quot;: 1 }]&quot;&gt;Open a modal with custom animation&lt;/a&gt;</code></pre>
+			</div>
+
+			<a target="_blank" href="index.html#content" class="n-modal-link n-modal--full">Full modal</a>
+			<div class="code">
+				<pre><code class=" language-markup">&lt;a target=&quot;_blank&quot; href=&quot;index.html#content&quot; class=&quot;n-modal-link n-modal--full&quot;&gt;Full modal&lt;/a&gt;</code></pre>
+			</div>
+
+			<h3>Options</h3>
+			<ul class="n-list">
+				<li></li>
+			</ul>
 			<!-- <div class="component-options">
 					<label>
 						<input type="checkbox" data-class="n-modal--italic" /><span></span> Italic</label>
