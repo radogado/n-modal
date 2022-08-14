@@ -178,6 +178,16 @@ var componentModal = (function() {
     // options: {content: ""/element, animation: "", trigger: element, closeText: "", closeLabel: ""}
     // content is either an HTML string or an element
     // options can be solely content if it's a string or element
+
+    // Fix Chrome flashing disappearing scrollbars on open
+    document.documentElement.style.overflow = 'scroll';
+    const scrollbar_width = window.innerWidth - document.documentElement.offsetWidth;
+    document.documentElement.style.overflow = '';
+
+    if (!scrollbar_width) {
+      document.documentElement.classList.add('transparent-scrollbar');
+    }
+
     if (typeof options === 'string' || !!options.tagName) {
       options = { content: options };
     }
@@ -224,7 +234,7 @@ var componentModal = (function() {
       }
 
     }
-    
+
     if (options.blur) {
       wrapper.classList.add('n-modal--blur');
     }
@@ -234,7 +244,7 @@ var componentModal = (function() {
     if (options.rounded) {
       wrapper.classList.add('n-modal--rounded');
     }
-    
+
     wrapper.dataset.anim = animation;
     wrapper.classList.add("n-modal");
     wrapper.onclick = (e) => {
@@ -261,6 +271,7 @@ var componentModal = (function() {
       easing: "ease-in-out",
     }).onfinish = () => {
       wrapper.addEventListener('close', removeModal);
+      document.documentElement.classList.remove('transparent-scrollbar');
     };
     return wrapper;
   }

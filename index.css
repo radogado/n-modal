@@ -10,6 +10,14 @@
   scrollbar-gutter: stable;
 }
 
+.transparent-scrollbar ::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+.transparent-scrollbar ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 .n-modal {
   background: var(--bg, #fff);
   border: 0;
