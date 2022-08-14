@@ -16,7 +16,7 @@
   }
 }
 
-.transparent-scrollbar {
+.transparent-scrollbar body > :not(dialog) {
   ::-webkit-scrollbar {
     width: 0px;
     height: 0px;

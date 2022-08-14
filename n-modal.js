@@ -133,6 +133,7 @@ var componentModal = (function() {
   var previousScrollY = 0;
   const animation_duration = window.matchMedia("(prefers-reduced-motion: no-preference)").matches ? 200 : 0;
   let removeModal = e => {
+      document.documentElement.classList.remove('transparent-scrollbar');
     let modal = e.target;
     modal.removeEventListener('close', removeModal);
     if (modal.existingDetachedElement) {
@@ -287,7 +288,6 @@ var componentModal = (function() {
       easing: "ease-in-out",
     }).onfinish = () => {
       wrapper.addEventListener('close', removeModal);
-      document.documentElement.classList.remove('transparent-scrollbar');
     };
     return wrapper;
   }

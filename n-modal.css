@@ -10,11 +10,11 @@
   scrollbar-gutter: stable;
 }
 
-.transparent-scrollbar ::-webkit-scrollbar {
+.transparent-scrollbar body > :not(dialog) ::-webkit-scrollbar {
   width: 0px;
   height: 0px;
 }
-.transparent-scrollbar ::-webkit-scrollbar-track {
+.transparent-scrollbar body > :not(dialog) ::-webkit-scrollbar-track {
   background: transparent;
 }
 
