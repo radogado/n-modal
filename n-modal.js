@@ -129,8 +129,6 @@ var componentModal = (function() {
   //     firstFocusableElement.focus();
   //   };
   // 
-  var previousScrollX = 0;
-  var previousScrollY = 0;
   const animation_duration = window.matchMedia("(prefers-reduced-motion: no-preference)").matches ? 200 : 0;
   let removeModal = e => {
       document.documentElement.classList.remove('transparent-scrollbar');
@@ -176,7 +174,7 @@ var componentModal = (function() {
       }
       modal.close();
       document.querySelector("html").classList.remove("no-scroll");
-      window.scrollTo(previousScrollX, previousScrollY);
+      // window.scrollTo(modal.previousScrollX, modal.previousScrollY);
     };
   }
 
@@ -232,11 +230,13 @@ var componentModal = (function() {
           content.replaceWith(marker);
           wrapper.lastChild.appendChild(content);
           marker.replaceWith(wrapper);
-          wrapper.dataset.existingAttachedContent = true;
 
           if (content.classList.contains('n-modal__content')) {
             wrapper.lastChild.replaceWith(content);
             wrapper.attachedHiddenContent = true;
+          } else {
+            wrapper.dataset.existingAttachedContent = true;
+
           }
 
         } else {
@@ -277,11 +277,11 @@ var componentModal = (function() {
 
     wrapper.showModal();
     // nuiDisableBodyScroll(true, wrapper); // Turn on and block page scroll
-    if (document.querySelectorAll(".n-modal").length === 1) {
-      // Sole (first) modal
-      previousScrollX = window.scrollX;
-      previousScrollY = window.scrollY;
-    }
+    // if (document.querySelectorAll(".n-modal").length === 1) {
+    //   // Sole (first) modal
+    //   wrapper.previousScrollX = window.scrollX;
+    //   wrapper.previousScrollY = window.scrollY;
+    // }
     document.querySelector("html").classList.add("no-scroll");
     wrapper.animate(typeof animation === "string" ? JSON.parse(animation) : [{ transform: "translate3d(0,-100vh,0)" }, { transform: "translate3d(0,0,0)" }], {
       duration: animation_duration,
@@ -344,6 +344,12 @@ var componentModal = (function() {
   window.nui = typeof window.nui === 'undefined' ? {} : window.nui;
   nui.modal = openModal;
   nui.modal.init = init;
+  
+  let hash_modal = document.querySelector(`.n-modal${location.hash}.n-modal--uri`);
+  if (location.hash && hash_modal) {
+    openModal(hash_modal);
+  }
+  
   typeof registerComponent === "function" ? registerComponent("n-modal", init) : init(); // Is it a part of niui, or standalone?
   return { closeModal, openModal };
   /* Modal – end */
