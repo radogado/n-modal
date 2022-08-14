@@ -133,9 +133,14 @@ var componentModal = (function() {
   var previousScrollY = 0;
   const animation_duration = window.matchMedia("(prefers-reduced-motion: no-preference)").matches ? 200 : 0;
   let removeModal = e => {
-    // console.log(modal);
     let modal = e.target;
     modal.removeEventListener('close', removeModal);
+    if (modal.existingDetachedElement) {
+      // console.log(modal);
+      let content = modal.querySelector('.n-modal__content');
+      content.removeChild(content.firstElementChild);
+      modal.remove();
+    }
     if (modal.attachedHiddenContent) {
       modal.replaceWith(modal.lastChild);
     } else {
@@ -193,16 +198,22 @@ var componentModal = (function() {
     }
     let animation = options.animation;
     let content = options.content;
+    let trigger = options.trigger;
+    var wrapper = {};
+
+    var existingDetachedElement = false;
 
     if (content.parentNode) {
       // console.log(content.parentNode);
       if (content.parentNode.tagName === 'DIALOG' || content.parentNode.classList.contains('n-modal__content')) {
         return;
       }
+    } else {
+      if (content.tagName) {
+        existingDetachedElement = true;
+      }
     }
 
-    let trigger = options.trigger;
-    var wrapper;
     if (typeof content === 'object' && content.tagName === 'DIALOG') {
       wrapper = content;
       wrapper.existingModal = true;
@@ -258,6 +269,11 @@ var componentModal = (function() {
       e.preventDefault();
       closeModal(e.target.closest('.n-modal'));
     });
+
+    if (existingDetachedElement) {
+      wrapper.existingDetachedElement = true;
+    }
+
     wrapper.showModal();
     // nuiDisableBodyScroll(true, wrapper); // Turn on and block page scroll
     if (document.querySelectorAll(".n-modal").length === 1) {
