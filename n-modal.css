@@ -22,6 +22,7 @@
   background: var(--bg, #fff);
   border: 0;
   text-align: end;
+  overscroll-behavior: contain;
 }
 .n-modal::backdrop {
   background: rgba(255, 255, 255, 0.97);
@@ -37,7 +38,6 @@
   }
 }
 .n-modal__content {
-  overscroll-behavior: none;
   display: none;
   overflow: auto;
   background: transparent;

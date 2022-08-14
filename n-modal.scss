@@ -80,8 +80,9 @@
   //   box-sizing: border-box;
   // }
 
+  overscroll-behavior: contain;
+
   &__content {
-    overscroll-behavior: none;
     display: none;
     overflow: auto;
     background: transparent;
