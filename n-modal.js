@@ -256,6 +256,9 @@ var componentModal = (function() {
     if (options.rounded) {
       wrapper.classList.add('n-modal--rounded');
     }
+    if (options.full) {
+      wrapper.classList.add('n-modal--full');
+    }
 
     wrapper.dataset.anim = animation;
     wrapper.classList.add("n-modal");

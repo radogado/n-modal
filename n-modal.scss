@@ -21,6 +21,7 @@
     width: 0px;
     height: 0px;
   }
+
   ::-webkit-scrollbar-track {
     background: transparent;
   }
@@ -45,7 +46,7 @@
     background: rgba(255, 255, 255, 0.9);
 
     @media (prefers-reduced-motion: no-preference) {
-      animation: fade-in .2s ease-in-out;
+      animation: backdrop_fade_in .2s ease-in-out;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -181,8 +182,9 @@
   &.n-modal--blur {
     &::backdrop {
       background: none;
-      animation: none;
-      backdrop-filter: blur(1rem);
+      animation-name: backdrop_blur;
+      animation-fill-mode: forwards;
+      // backdrop-filter: blur(1rem);
     }
   }
 
@@ -208,12 +210,23 @@ _:future,
   text-align: start;
 }
 
-@keyframes fade-in {
+@keyframes backdrop_fade_in {
   from {
     opacity: 0;
   }
 
   to {
     opacity: 1;
+  }
+}
+
+@keyframes backdrop_blur {
+  from {
+    backdrop-filter: blur(0);
+  }
+
+  to {
+    backdrop-filter: blur(1rem);
+
   }
 }
