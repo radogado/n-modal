@@ -6,7 +6,7 @@
 	--font-size: 16px;
 	font-size: var(--font-size, 16px);
 	line-height: 1.5;
-	-webkit-text-size-adjust: 100%;
+	-webkit-text-size-adjust: auto;
 
 	--control-bg: #ad421b;
 }
@@ -70,7 +70,7 @@ h3 {
 }
 
 ul {
-	padding-inline-start: 1rem;
+	padding-inline-start: 1.25rem;
 }
 
 a[href] {
