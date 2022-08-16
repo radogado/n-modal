@@ -134,6 +134,7 @@ button {
   margin: 0;
   font-family: monospace;
   border-radius: 3px;
+  border-bottom-right-radius: 0;
 }
 .code button.n-btn {
   position: absolute;
@@ -150,6 +151,7 @@ button {
   font-weight: bold;
   line-height: 2;
   padding: 0.25em 1em;
+  bottom: -1.866rem;
 }
 
 .source {
