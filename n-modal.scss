@@ -176,12 +176,13 @@
 
     &::backdrop {
       opacity: 0;
-      animation: none;
+      animation-name: none;
     }
   }
 
   &.n-modal--blur {
     &::backdrop {
+      opacity: 1;
       background: none;
       animation-name: backdrop_blur;
       animation-fill-mode: forwards;
