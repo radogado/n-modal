@@ -146,7 +146,11 @@
     width: 100%;
     width: calc(100vw - 2 * env(safe-area-inset-left));
     height: 100%;
-    box-shadow: 0 0 0 6px var(--bg, black);
+    box-shadow: 0 0 0 6px var(--bg, white);
+
+    @media (prefers-color-scheme: dark) {
+      box-shadow: 0 0 0 6px var(--bg, black);
+    }
 
     &::backdrop {
       opacity: 0;

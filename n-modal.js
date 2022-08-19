@@ -41,14 +41,27 @@ var componentModal = (function() {
   //     window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
   //   }
 
+  const isChrome = !!navigator.userAgent.match("Chrome");
+  const isSafari = navigator.userAgent.match(/Safari/) && !isChrome;
+
+  var x = window.scrollX;
+  var y = window.scrollY;
+  const blockScroll = e => {
+    window.scrollTo(x, y);
+  };
+
   function disableScrolling() {
-    var x = window.scrollX;
-    var y = window.scrollY;
-    window.onscroll = function() { window.scrollTo(x, y); };
+    x = window.scrollX;
+    y = window.scrollY;
+    // window.onscroll = function() { window.scrollTo(x, y); };
+    if (!isSafari) {
+      window.addEventListener('scroll', blockScroll, { 'passive': 'false' });
+    }
   }
 
   function enableScrolling() {
-    window.onscroll = function() {};
+    // window.onscroll = function() {};
+    window.removeEventListener('scroll', blockScroll);
   }
 
   // var previouslyFocused = previouslyFocused || false;

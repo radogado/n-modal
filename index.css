@@ -70,7 +70,12 @@
   width: 100%;
   width: calc(100vw - 2 * env(safe-area-inset-left));
   height: 100%;
-  box-shadow: 0 0 0 6px var(--bg, black);
+  box-shadow: 0 0 0 6px var(--bg, white);
+}
+@media (prefers-color-scheme: dark) {
+  .n-modal.n-modal--full {
+    box-shadow: 0 0 0 6px var(--bg, black);
+  }
 }
 .n-modal.n-modal--full::backdrop {
   opacity: 0;
