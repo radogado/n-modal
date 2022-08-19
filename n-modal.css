@@ -19,6 +19,7 @@
 }
 
 .n-modal {
+  overscroll-behavior: contain;
   background: var(--bg, #fff);
   color: var(--color, #000);
   border: 0;

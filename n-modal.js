@@ -47,16 +47,20 @@ var componentModal = (function() {
   var x = window.scrollX;
   var y = window.scrollY;
   const blockScroll = e => {
-    window.scrollTo(x, y);
+    if (isSafari) {
+      document.querySelectorAll('dialog.n-modal[open]').forEach(el => {
+        closeModal(el);
+      });
+    } else {
+      window.scrollTo(x, y);
+    }
   };
 
   function disableScrolling() {
     x = window.scrollX;
     y = window.scrollY;
     // window.onscroll = function() { window.scrollTo(x, y); };
-    if (!isSafari) {
-      window.addEventListener('scroll', blockScroll, { 'passive': 'false' });
-    }
+    window.addEventListener('scroll', blockScroll, { 'passive': 'false' });
   }
 
   function enableScrolling() {
