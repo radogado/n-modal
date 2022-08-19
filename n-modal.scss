@@ -7,7 +7,8 @@
   & body {
     touch-action: none;
     overscroll-behavior: none;
-    overflow: hidden;
+    overscroll-behavior: contain;
+    // overflow: hidden;
     -webkit-overflow-scrolling: auto;
   }
 

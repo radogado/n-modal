@@ -43,6 +43,17 @@
 					<p>Originally hidden, attached full modal.</p>
 				</div>
 			</dialog>
+			<script>
+				var detached_modal = document.createElement('dialog');
+				detached_modal.classList.add('n-modal');
+				detached_modal.innerHTML =
+					`
+				<button class="n-modal__close"></button>
+				<div class="n-modal__content">
+					<p>Originally detached modal.</p>
+				</div>
+			`;
+			</script>
 			<div class="n-modal__content" id="modal2">
 				<p>Originally hidden, attached modal content only.</p>
 			</div>
@@ -127,7 +138,7 @@
 			<div class="code">
 				<pre><code class=" language-markup">&lt;a target=&quot;_blank&quot; href=&quot;index.html#sidebar&quot; class=&quot;n-modal-link n-modal--blur&quot;&gt;Blur&lt;/a&gt;</code></pre>
 			</div>
-			
+
 			<h3>Options</h3>
 			<ul class="n-list">
 				<li><b>.n-modal-link</b> links and buttons support styling classes <b>.n-modal--blur</b>, <b>.n-modal--shadow</b>, <b>.n-modal--rounded</b>, <b>.n-modal--full</b>, the <b>data-anim</b> attribute for custom open/close animation, the <b>data-close-label</b> attribute specifying the close button label (default "Close"), <b>data-close-text</b> attribute specifying the close button content (default "X"). </li>

@@ -1,95 +1,56 @@
-/**
- * This is a function where type checking is disabled.
- * @suppress {misplacedTypeAnnotation}
- */
-window.nuiDisableBodyScroll = (function() {
-  // Thanks Thijs Huijssoon https://gist.github.com/thuijssoon
-  /**
-   * Private variables
-   */
-  var _selector = false,
-    _element = false,
-    _clientY;
-  /**
-   * Prevent default unless within _selector
-   *
-   * @param  event object event
-   * @return void
-   */
-  var preventBodyScroll = (event) => {
-    if (!_element || !event.target.closest || !_selector.contains(event.target)) {
-      event.preventDefault();
-    }
-  };
-  /**
-   * Cache the clientY co-ordinates for
-   * comparison
-   *
-   * @param  event object event
-   * @return void
-   */
-  var captureClientY = (event) => {
-    // only respond to a single touch
-    if (event.targetTouches.length === 1) {
-      _clientY = event.targetTouches[0].clientY;
-    }
-  };
-  /**
-   * Detect whether the element is at the top
-   * or the bottom of their scroll and prevent
-   * the user from scrolling beyond
-   *
-   * @param  event object event
-   * @return void
-   */
-  var preventOverscroll = (event) => {
-    // only respond to a single touch
-    if (event.targetTouches.length !== 1) {
-      return;
-    }
-    var clientY = event.targetTouches[0].clientY - _clientY;
-    // The element at the top of its scroll,
-    // and the user scrolls down
-    if (_element.scrollTop === 0 && clientY > 0) {
-      event.preventDefault();
-    }
-    // The element at the bottom of its scroll,
-    // and the user scrolls up
-    // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollHeight#Problems_and_solutions
-    if (_element.scrollHeight - _element.scrollTop <= _element.clientHeight && clientY < 0) {
-      event.preventDefault();
-    }
-  };
-  /**
-   * Disable body scroll. Scrolling with the selector is
-   * allowed if a selector is provided.
-   *
-   * @param  boolean allow
-   * @param  string selector Selector to element to change scroll permission
-   * @return void
-   */
-  return function(allow, selector) {
-    if (!!selector) {
-      _selector = selector;
-      _element = selector;
-    }
-    if (true === allow) {
-      if (false !== _element) {
-        _element.addEventListener("touchstart", captureClientY, { passive: false });
-        _element.addEventListener("touchmove", preventOverscroll, { passive: false });
-      }
-      document.body.addEventListener("touchmove", preventBodyScroll, { passive: false });
-    } else {
-      if (false !== _element) {
-        _element.removeEventListener("touchstart", captureClientY, { passive: false });
-        _element.removeEventListener("touchmove", preventOverscroll, { passive: false });
-      }
-      document.body.removeEventListener("touchmove", preventBodyScroll, { passive: false });
-    }
-  };
-})();
 var componentModal = (function() {
   /* Modal – start */
+
+//   // left: 37, up: 38, right: 39, down: 40,
+//   // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+//   var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+// 
+//   function preventDefault(e) {
+//     e.preventDefault();
+//   }
+// 
+//   function preventDefaultForScrollKeys(e) {
+//     if (keys[e.keyCode]) {
+//       preventDefault(e);
+//       return false;
+//     }
+//   }
+// 
+//   // modern Chrome requires { passive: false } when adding event
+//   var supportsPassive = false;
+//   try {
+//     window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
+//       get: function() { supportsPassive = true; }
+//     }));
+//   } catch (e) {}
+// 
+//   var wheelOpt = supportsPassive ? { passive: false } : false;
+//   var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+// 
+//   // call this to Disable
+//   function disableScrolling() {
+//     window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+//     window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
+//     window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+//   }
+// 
+//   // call this to Enable
+//   function enableScrolling() {
+//     window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+//     window.removeEventListener('touchmove', preventDefault, wheelOpt);
+//     window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
+//   }
+
+  function disableScrolling() {
+    var x = window.scrollX;
+    var y = window.scrollY;
+    window.onscroll = function() { window.scrollTo(x, y); };
+  }
+
+  function enableScrolling() {
+    window.onscroll = function() {};
+  }
+
   // var previouslyFocused = previouslyFocused || false;
   function transferClass(origin, target, className) {
     let classes = typeof className === "string" ? new Array(className) : className;
@@ -131,13 +92,16 @@ var componentModal = (function() {
   // 
   const animation_duration = window.matchMedia("(prefers-reduced-motion: no-preference)").matches ? 200 : 0;
   let removeModal = e => {
-      document.documentElement.classList.remove('transparent-scrollbar');
+    document.documentElement.classList.remove('transparent-scrollbar');
     let modal = e.target;
     modal.removeEventListener('close', removeModal);
     if (modal.existingDetachedElement) {
       // console.log(modal);
-      let content = modal.querySelector('.n-modal__content');
-      content.removeChild(content.firstElementChild);
+      if (!modal.existingModal) {
+        let content = modal.querySelector('.n-modal__content');
+        content.removeChild(content.firstElementChild);
+      }
+      delete modal.existingDetachedElement;
       modal.remove();
     }
     if (modal.attachedHiddenContent) {
@@ -166,10 +130,11 @@ var componentModal = (function() {
       direction_option = "reverse";
     }
     modal.animate(JSON.parse(animation), { duration: animation_duration, direction: direction_option, easing: "ease-in-out" }).onfinish = () => {
+      enableScrolling();
       // nuiDisableBodyScroll(false, modal); // Turn off and restore page scroll
       if (modal.existingModal) {
         modal.removeEventListener('close', removeModal);
-        delete modal.existingModal;
+        // delete modal.existingModal;
         delete modal.dataset.anim;
       }
       modal.close();
@@ -188,7 +153,7 @@ var componentModal = (function() {
     const scrollbar_width = window.innerWidth - document.documentElement.offsetWidth;
     document.documentElement.style.overflow = '';
 
-    if (!scrollbar_width) {
+    if (!scrollbar_width) { // Because Chrome flashes disappearing scrollbars on open (Mac)
       document.documentElement.classList.add('transparent-scrollbar');
     }
 
@@ -214,6 +179,9 @@ var componentModal = (function() {
     }
 
     if (typeof content === 'object' && content.tagName === 'DIALOG') {
+      if (!content.parentNode) { // Detached modal
+        document.body.appendChild(content);
+      }
       wrapper = content;
       wrapper.existingModal = true;
     } else {
@@ -279,6 +247,7 @@ var componentModal = (function() {
     }
 
     wrapper.showModal();
+    disableScrolling();
     // nuiDisableBodyScroll(true, wrapper); // Turn on and block page scroll
     // if (document.querySelectorAll(".n-modal").length === 1) {
     //   // Sole (first) modal
@@ -347,12 +316,12 @@ var componentModal = (function() {
   window.nui = typeof window.nui === 'undefined' ? {} : window.nui;
   nui.modal = openModal;
   nui.modal.init = init;
-  
+
   let hash_modal = document.querySelector(`.n-modal${location.hash}.n-modal--uri`);
   if (location.hash && hash_modal) {
     openModal(hash_modal);
   }
-  
+
   typeof registerComponent === "function" ? registerComponent("n-modal", init) : init(); // Is it a part of niui, or standalone?
   return { closeModal, openModal };
   /* Modal – end */

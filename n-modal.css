@@ -3,7 +3,7 @@
 .no-scroll, .no-scroll body {
   touch-action: none;
   overscroll-behavior: none;
-  overflow: hidden;
+  overscroll-behavior: contain;
   -webkit-overflow-scrolling: auto;
 }
 .no-scroll body {
