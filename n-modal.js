@@ -1,45 +1,45 @@
 var componentModal = (function() {
   /* Modal – start */
 
-//   // left: 37, up: 38, right: 39, down: 40,
-//   // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
-//   var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
-// 
-//   function preventDefault(e) {
-//     e.preventDefault();
-//   }
-// 
-//   function preventDefaultForScrollKeys(e) {
-//     if (keys[e.keyCode]) {
-//       preventDefault(e);
-//       return false;
-//     }
-//   }
-// 
-//   // modern Chrome requires { passive: false } when adding event
-//   var supportsPassive = false;
-//   try {
-//     window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
-//       get: function() { supportsPassive = true; }
-//     }));
-//   } catch (e) {}
-// 
-//   var wheelOpt = supportsPassive ? { passive: false } : false;
-//   var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
-// 
-//   // call this to Disable
-//   function disableScrolling() {
-//     window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
-//     window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
-//     window.addEventListener('keydown', preventDefaultForScrollKeys, false);
-//   }
-// 
-//   // call this to Enable
-//   function enableScrolling() {
-//     window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
-//     window.removeEventListener('touchmove', preventDefault, wheelOpt);
-//     window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
-//   }
+  //   // left: 37, up: 38, right: 39, down: 40,
+  //   // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+  //   var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+  // 
+  //   function preventDefault(e) {
+  //     e.preventDefault();
+  //   }
+  // 
+  //   function preventDefaultForScrollKeys(e) {
+  //     if (keys[e.keyCode]) {
+  //       preventDefault(e);
+  //       return false;
+  //     }
+  //   }
+  // 
+  //   // modern Chrome requires { passive: false } when adding event
+  //   var supportsPassive = false;
+  //   try {
+  //     window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
+  //       get: function() { supportsPassive = true; }
+  //     }));
+  //   } catch (e) {}
+  // 
+  //   var wheelOpt = supportsPassive ? { passive: false } : false;
+  //   var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+  // 
+  //   // call this to Disable
+  //   function disableScrolling() {
+  //     window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+  //     window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
+  //     window.addEventListener('keydown', preventDefaultForScrollKeys, false);
+  //   }
+  // 
+  //   // call this to Enable
+  //   function enableScrolling() {
+  //     window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+  //     window.removeEventListener('touchmove', preventDefault, wheelOpt);
+  //     window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
+  //   }
 
   function disableScrolling() {
     var x = window.scrollX;
@@ -60,36 +60,7 @@ var componentModal = (function() {
       }
     });
   }
-  //   const focusableElements = 'button, [href], input, select, textarea, details, summary, video, [tabindex]:not([tabindex="-1"])';
-  //   const trapFocus = (modal) => {
-  //     // FROM: https://uxdesign.cc/how-to-trap-focus-inside-modal-to-make-it-ada-compliant-6a50f9a70700
-  //     // add all the elements inside modal which you want to make focusable
-  //     const firstFocusableElement = modal.querySelectorAll(focusableElements)[0]; // get first element to be focused inside modal
-  //     const focusableContent = modal.querySelectorAll(focusableElements);
-  //     const lastFocusableElement = focusableContent[focusableContent.length - 1]; // get last element to be focused inside modal
-  //     document.addEventListener("keydown", function(e) {
-  //       let isTabPressed = e.key === "Tab" || e.keyCode === 9;
-  //       if (!isTabPressed) {
-  //         return;
-  //       }
-  //       if (e.shiftKey) {
-  //         // if shift key pressed for shift + tab combination
-  //         if (document.activeElement === firstFocusableElement) {
-  //           lastFocusableElement.focus(); // add focus for the last focusable element
-  //           e.preventDefault();
-  //         }
-  //       } else {
-  //         // if tab key is pressed
-  //         if (document.activeElement === lastFocusableElement) {
-  //           // if focused has reached to last focusable element then focus first focusable element after pressing tab
-  //           firstFocusableElement.focus(); // add focus for the first focusable element
-  //           e.preventDefault();
-  //         }
-  //       }
-  //     });
-  //     firstFocusableElement.focus();
-  //   };
-  // 
+
   const animation_duration = window.matchMedia("(prefers-reduced-motion: no-preference)").matches ? 200 : 0;
   let removeModal = e => {
     document.documentElement.classList.remove('transparent-scrollbar');
@@ -133,7 +104,9 @@ var componentModal = (function() {
       enableScrolling();
       // nuiDisableBodyScroll(false, modal); // Turn off and restore page scroll
       if (modal.existingModal) {
-        modal.removeEventListener('close', removeModal);
+        if (!modal.existingDetachedElement) {
+          modal.removeEventListener('close', removeModal);
+        }
         // delete modal.existingModal;
         delete modal.dataset.anim;
       }

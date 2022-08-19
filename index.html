@@ -43,17 +43,6 @@
 					<p>Originally hidden, attached full modal.</p>
 				</div>
 			</dialog>
-			<script>
-				var detached_modal = document.createElement('dialog');
-				detached_modal.classList.add('n-modal');
-				detached_modal.innerHTML =
-					`
-				<button class="n-modal__close"></button>
-				<div class="n-modal__content">
-					<p>Originally detached modal.</p>
-				</div>
-			`;
-			</script>
 			<div class="n-modal__content" id="modal2">
 				<p>Originally hidden, attached modal content only.</p>
 			</div>
@@ -71,6 +60,35 @@
 &lt;button class=&quot;n-modal-link&quot; data-for=&quot;modal1&quot;&gt;Open an attached, hidden modal&lt;/button&gt;</code></pre>
 			</div>
 
+			<script>
+				var detached_modal = document.createElement('dialog');
+				detached_modal.classList.add('n-modal');
+				detached_modal.innerHTML = `
+					<button class="n-modal__close" data-close-text="╳" aria-label="Close"></button>
+					<div class="n-modal__content">
+						<p>Originally detached modal.</p>
+					</div>
+				`;
+			</script>
+
+			<button onclick="nui.modal(detached_modal)">Open a detached modal</button>
+			
+						<div class="code">
+							<pre><code class="language-markup">&lt;script&gt;
+	var detached_modal = document.createElement(&apos;dialog&apos;);
+	detached_modal.classList.add(&apos;n-modal&apos;);
+	detached_modal.innerHTML = `
+		&lt;button class=&quot;n-modal__close&quot; data-close-text=&quot;╳&quot; aria-label=&quot;Close&quot;&gt;&lt;/button&gt;
+		&lt;div class=&quot;n-modal__content&quot;&gt;
+			&lt;p&gt;Originally detached modal.&lt;/p&gt;
+		&lt;/div&gt;
+	`;
+&lt;/script&gt;
+
+&lt;button onclick=&quot;nui.modal(detached_modal)&quot;&gt;Open a detached modal&lt;/button&gt;
+</code></pre>
+						</div>
+			
 			<button class="n-modal-link" data-for="modal2">Open a modal with attached, hidden content</button>
 
 			<div class="code">
