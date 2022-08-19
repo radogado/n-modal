@@ -151,15 +151,24 @@ var componentModal = (function() {
       }
     }
 
+    const close_label = 'Close';
+    const close_symbol = '╳';
+
     if (typeof content === 'object' && content.tagName === 'DIALOG') {
+
       if (!content.parentNode) { // Detached modal
         document.body.appendChild(content);
       }
       wrapper = content;
       wrapper.existingModal = true;
+      let close_button = wrapper.querySelector('.n-modal__close');
+      if (close_button) {
+        close_button.dataset.closeText = close_button.dataset.closeText || close_symbol;
+        close_button.ariaLabel = close_button.ariaLabel || close_label;
+      }
     } else {
       wrapper = document.createElement("dialog");
-      wrapper.insertAdjacentHTML("afterbegin", `<button class="n-modal__close" aria-label="${options.closeLabel || trigger?.dataset.closeLabel || 'Close'}" data-close-text="${options.closeText || trigger?.dataset.closeText || '╳'}"></button><div class="n-modal__content"></div>`);
+      wrapper.insertAdjacentHTML("afterbegin", `<button class="n-modal__close" aria-label="${options.closeLabel || trigger?.dataset.closeLabel || close_label}" data-close-text="${options.closeText || trigger?.dataset.closeText || close_symbol}"></button><div class="n-modal__content"></div>`);
       let modal_content = document.createElement("div");
       if (typeof content === "string") {
         wrapper.lastChild.innerHTML = content;
