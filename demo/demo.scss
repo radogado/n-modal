@@ -75,6 +75,7 @@ ul {
 
 a[href] {
 	color: inherit;
+	display: inline-block;
 }
 
 button {
@@ -135,7 +136,11 @@ button {
 	display: inline-block;
 	width: 100%;
 	direction: ltr;
-	margin-bottom: 3rem;
+	margin-bottom: 1.5rem;
+	
+	+ :not(.code), + script + :not(.code) {
+		margin-top: 4.5rem;
+	}
 
 	pre {
 		padding: .75rem;
