@@ -125,7 +125,7 @@
   opacity: 0;
 }
 .n-modal.n-modal--transparent::backdrop {
-  opacity: 0;
+  opacity: 0.5;
   animation-name: none;
   transition: opacity 0.067s ease-in-out;
 }
