@@ -58,7 +58,7 @@ var componentModal = (function() {
         document.querySelectorAll('dialog.n-modal[open]').forEach(el => {
           el.classList.remove('n-modal--transparent');
         });
-      }, 100);
+      }, 67);
     // } else {
     //   window.scrollTo(x, y);
     // }
