@@ -49,16 +49,17 @@ var componentModal = (function() {
   var scroll_timeout;
 
   const blockScroll = e => {
+    // console.log(e);
     // if (isSafari) {
+    document.querySelectorAll('dialog.n-modal[open]').forEach(el => {
+      el.classList.add('n-modal--transparent');
+    });
+    clearTimeout(scroll_timeout);
+    scroll_timeout = setTimeout(() => {
       document.querySelectorAll('dialog.n-modal[open]').forEach(el => {
-        el.classList.add('n-modal--transparent');
+        el.classList.remove('n-modal--transparent');
       });
-      clearTimeout(scroll_timeout);
-      scroll_timeout = setTimeout(() => {
-        document.querySelectorAll('dialog.n-modal[open]').forEach(el => {
-          el.classList.remove('n-modal--transparent');
-        });
-      }, 67);
+    }, 67);
     // } else {
     //   window.scrollTo(x, y);
     // }
@@ -254,7 +255,6 @@ var componentModal = (function() {
     }
 
     wrapper.showModal();
-    disableScrolling();
     // nuiDisableBodyScroll(true, wrapper); // Turn on and block page scroll
     // if (document.querySelectorAll(".n-modal").length === 1) {
     //   // Sole (first) modal
@@ -267,6 +267,7 @@ var componentModal = (function() {
       easing: "ease-in-out",
     }).onfinish = () => {
       wrapper.addEventListener('close', removeModal);
+      disableScrolling();
     };
     return wrapper;
   }
