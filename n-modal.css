@@ -95,6 +95,7 @@
 .n-modal.n-modal--shadow {
   box-shadow: 0 0 0.25rem 0.125rem rgba(0, 0, 0, 0.5);
   max-height: calc(100% - 3.5rem);
+  max-width: calc(100% - 3.5rem);
 }
 @media (prefers-color-scheme: dark) {
   .n-modal.n-modal--shadow {
