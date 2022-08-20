@@ -41,19 +41,27 @@ var componentModal = (function() {
   //     window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
   //   }
 
-  const isChrome = !!navigator.userAgent.match("Chrome");
-  const isSafari = navigator.userAgent.match(/Safari/) && !isChrome;
+  // const isChrome = !!navigator.userAgent.match("Chrome");
+  // const isSafari = navigator.userAgent.match(/Safari/) && !isChrome;
 
   var x = window.scrollX;
   var y = window.scrollY;
+  var scroll_timeout;
+
   const blockScroll = e => {
-    if (isSafari) {
+    // if (isSafari) {
       document.querySelectorAll('dialog.n-modal[open]').forEach(el => {
-        closeModal(el);
+        el.classList.add('n-modal--transparent');
       });
-    } else {
-      window.scrollTo(x, y);
-    }
+      clearTimeout(scroll_timeout);
+      scroll_timeout = setTimeout(() => {
+        document.querySelectorAll('dialog.n-modal[open]').forEach(el => {
+          el.classList.remove('n-modal--transparent');
+        });
+      }, 100);
+    // } else {
+    //   window.scrollTo(x, y);
+    // }
   };
 
   function disableScrolling() {

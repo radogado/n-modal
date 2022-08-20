@@ -38,6 +38,7 @@
 
 .n-modal {
 
+  transition: opacity .067s ease-in-out;
   overscroll-behavior: contain;
   background: var(--bg, #fff);
   color: var(--color, #000);
@@ -210,6 +211,17 @@
     background: var(--bg, #fff);
     position: relative;
   }
+
+  &.n-modal--transparent {
+    opacity: 0;
+
+    &::backdrop {
+      opacity: 0;
+      animation-name: none;
+      transition: opacity .067s ease-in-out;
+    }
+  }
+
 }
 
 _::-webkit-full-page-media,
