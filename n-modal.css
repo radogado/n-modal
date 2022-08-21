@@ -21,8 +21,8 @@
 .n-modal {
   transition: opacity 0.067s ease-in-out;
   overscroll-behavior: contain;
-  background: var(--bg, #fff);
-  color: var(--color, #000);
+  background: var(--nui-bg, #fff);
+  color: var(--nui-color, #000);
   border: 0;
   text-align: end;
   overscroll-behavior: contain;
@@ -52,11 +52,11 @@
 .n-modal > .n-modal__close {
   min-width: 40px;
   min-height: 40px;
-  color: var(--control-color, #fff);
+  color: var(--nui-control-color, #fff);
   cursor: pointer;
   padding: 0.75em;
   font: inherit;
-  background-color: var(--control-bg, rgba(0, 0, 0, 0.7));
+  background-color: var(--nui-control-bg, rgba(0, 0, 0, 0.7));
   z-index: 1;
   top: 0;
   position: sticky;
@@ -65,18 +65,18 @@
   font-weight: normal;
 }
 .n-modal > .n-modal__close:before {
-  content: attr(data-close-text);
+  content: attr(data-close-symbol);
 }
 .n-modal.n-modal--full {
   margin: auto;
   width: 100%;
   width: calc(100vw - 2 * env(safe-area-inset-left));
   height: 100%;
-  box-shadow: 0 0 0 6px var(--bg, white);
+  box-shadow: 0 0 0 6px var(--nui-bg, white);
 }
 @media (prefers-color-scheme: dark) {
   .n-modal.n-modal--full {
-    box-shadow: 0 0 0 6px var(--bg, black);
+    box-shadow: 0 0 0 6px var(--nui-bg, black);
   }
 }
 .n-modal.n-modal--full::backdrop {
@@ -112,14 +112,14 @@
   animation-name: backdrop_blur;
   animation-fill-mode: forwards;
 }
-.n-modal--rounded {
+.n-modal.n-modal--rounded {
   border-radius: 0.5ch;
 }
-.n-modal--rounded .n-modal__close {
+.n-modal.n-modal--rounded .n-modal__close {
   border-radius: 20px;
 }
 .n-modal > * {
-  background: var(--bg, #fff);
+  background: var(--nui-bg, #fff);
   position: relative;
 }
 .n-modal.n-modal--transparent {

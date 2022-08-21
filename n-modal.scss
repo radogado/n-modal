@@ -40,8 +40,8 @@
 
   transition: opacity .067s ease-in-out;
   overscroll-behavior: contain;
-  background: var(--bg, #fff);
-  color: var(--color, #000);
+  background: var(--nui-bg, #fff);
+  color: var(--nui-color, #000);
   border: 0;
   text-align: end;
 
@@ -108,12 +108,12 @@
   > .n-modal__close {
     min-width: 40px;
     min-height: 40px;
-    color: var(--control-color, #fff);
+    color: var(--nui-control-color, #fff);
     cursor: pointer;
     padding: 0.75em;
     font: inherit;
     // font-weight: bold;
-    background-color: var(--control-bg, rgba(0, 0, 0, 0.7));
+    background-color: var(--nui-control-bg, rgba(0, 0, 0, 0.7));
     // width: 100%;
     z-index: 1;
     top: 0;
@@ -138,7 +138,7 @@
     // margin-inline-end: env(safe-area-inset-right);
 
     &:before {
-      content: attr(data-close-text);
+      content: attr(data-close-symbol);
     }
 
   }
@@ -148,10 +148,10 @@
     width: 100%;
     width: calc(100vw - 2 * env(safe-area-inset-left));
     height: 100%;
-    box-shadow: 0 0 0 6px var(--bg, white);
+    box-shadow: 0 0 0 6px var(--nui-bg, white);
 
     @media (prefers-color-scheme: dark) {
-      box-shadow: 0 0 0 6px var(--bg, black);
+      box-shadow: 0 0 0 6px var(--nui-bg, black);
     }
 
     &::backdrop {
@@ -197,7 +197,7 @@
     }
   }
 
-  &--rounded {
+  &.n-modal--rounded {
     // .n-modal__bg {
     border-radius: 0.5ch;
     // }
@@ -208,7 +208,7 @@
   }
 
   > * {
-    background: var(--bg, #fff);
+    background: var(--nui-bg, #fff);
     position: relative;
   }
 

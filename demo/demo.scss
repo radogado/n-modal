@@ -1,20 +1,20 @@
 :root {
 	text-align: center;
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-	background: var(--bg, #ddd);
-	color: var(--color, #333);
+	background: var(--nui-bg, #ddd);
+	color: var(--nui-color, #333);
 	--font-size: 16px;
 	font-size: var(--font-size, 16px);
 	line-height: 1.5;
 	-webkit-text-size-adjust: auto;
 
-	--control-bg: #ad421b;
+	--nui-control-bg: #ad421b;
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--color: antiquewhite;
-		--bg: #007575;
+		--nui-color: antiquewhite;
+		--nui-bg: #007575;
 	}
 }
 
@@ -158,10 +158,10 @@ button {
 		margin: 0;
 		-webkit-appearance: none;
 		appearance: none;
-		background: var(--control-bg, #ad421b);
+		background: var(--nui-control-bg, #ad421b);
 		border: none;
 		cursor: pointer;
-		color: var(--color, #fff);
+		color: var(--nui-color, #fff);
 		font-weight: bold;
 		line-height: 2;
 		padding: 0.25em 1em;
@@ -217,7 +217,7 @@ button {
 
 	span {
 		display: inline-block;
-		background: var(--control-bg, black);
+		background: var(--nui-control-bg, black);
 		z-index: -1;
 	}
 
@@ -231,8 +231,8 @@ button {
 		padding: 0;
 
 		&:checked + span {
-			background: var(--color, white);
-			border: 3px solid var(--control-bg, black);
+			background: var(--nui-color, white);
+			border: 3px solid var(--nui-control-bg, black);
 			box-sizing: border-box;
 		}
 	}
