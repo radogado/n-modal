@@ -143,7 +143,7 @@ var componentModal = (function() {
   }
 
   function openModal(options) {
-    // options: {content: ""/element, animation: "", trigger: element, closeText: "", closeLabel: ""}
+    // options: {content: ""/element, animation: "", trigger: element, closeSymbol: "", closeLabel: ""}
     // content is either an HTML string or an element
     // options can be solely content if it's a string or element
 
@@ -189,12 +189,12 @@ var componentModal = (function() {
       wrapper.existingModal = true;
       let close_button = wrapper.querySelector('.n-modal__close');
       if (close_button) {
-        close_button.dataset.closeText = close_button.dataset.closeText || close_symbol;
+        close_button.dataset.closeSymbol = close_button.dataset.closeSymbol || close_symbol;
         close_button.ariaLabel = close_button.ariaLabel || close_label;
       }
     } else {
       wrapper = document.createElement("dialog");
-      wrapper.insertAdjacentHTML("afterbegin", `<button class="n-modal__close" aria-label="${options.closeLabel || trigger?.dataset.closeLabel || close_label}" data-close-text="${options.closeText || trigger?.dataset.closeText || close_symbol}"></button><div class="n-modal__content"></div>`);
+      wrapper.insertAdjacentHTML("afterbegin", `<button class="n-modal__close" aria-label="${options.closeLabel || trigger?.dataset.closeLabel || close_label}" data-close-symbol="${options.closeSymbol || trigger?.dataset.closeSymbol || close_symbol}"></button><div class="n-modal__content"></div>`);
       let modal_content = document.createElement("div");
       if (typeof content === "string") {
         wrapper.lastChild.innerHTML = content;
