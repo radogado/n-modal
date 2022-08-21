@@ -137,7 +137,7 @@ var componentModal = (function() {
         delete modal.dataset.anim;
       }
       modal.close();
-      document.querySelector("html").classList.remove("no-scroll");
+      // document.querySelector("html").classList.remove("no-scroll");
       // window.scrollTo(modal.previousScrollX, modal.previousScrollY);
     };
   }
@@ -261,7 +261,7 @@ var componentModal = (function() {
     //   wrapper.previousScrollX = window.scrollX;
     //   wrapper.previousScrollY = window.scrollY;
     // }
-    document.querySelector("html").classList.add("no-scroll");
+    // document.querySelector("html").classList.add("no-scroll");
     wrapper.animate(typeof animation === "string" ? JSON.parse(animation) : [{ transform: "translate3d(0,-100vh,0)" }, { transform: "translate3d(0,0,0)" }], {
       duration: animation_duration,
       easing: "ease-in-out",

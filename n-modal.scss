@@ -1,21 +1,21 @@
 /* niui – Modal */
 // @import "../../css/niui-setup";
 
-.no-scroll {
-
-  &,
-  & body {
-    touch-action: none;
-    overscroll-behavior: none;
-    overscroll-behavior: contain;
-    // overflow: hidden;
-    -webkit-overflow-scrolling: auto;
-  }
-
-  body {
-    scrollbar-gutter: stable;
-  }
-}
+// .no-scroll {
+// 
+//   &,
+//   & body {
+//     touch-action: none;
+//     overscroll-behavior: none;
+//     overscroll-behavior: contain;
+//     // overflow: hidden;
+//     -webkit-overflow-scrolling: auto;
+//   }
+// 
+//   body {
+//     scrollbar-gutter: stable;
+//   }
+// }
 
 .transparent-scrollbar body > :not(dialog) {
   ::-webkit-scrollbar {

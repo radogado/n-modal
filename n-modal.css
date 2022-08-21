@@ -1,15 +1,5 @@
 @charset "UTF-8";
 /* niui – Modal */
-.no-scroll, .no-scroll body {
-  touch-action: none;
-  overscroll-behavior: none;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: auto;
-}
-.no-scroll body {
-  scrollbar-gutter: stable;
-}
-
 .transparent-scrollbar body > :not(dialog) ::-webkit-scrollbar {
   width: 0px;
   height: 0px;
