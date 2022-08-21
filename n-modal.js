@@ -69,7 +69,7 @@ var componentModal = (function() {
     x = window.scrollX;
     y = window.scrollY;
     // window.onscroll = function() { window.scrollTo(x, y); };
-    window.addEventListener('scroll', blockScroll, { 'passive': 'false' });
+    window.addEventListener('scroll', blockScroll, { 'passive': 'true' });
   }
 
   function enableScrolling() {
