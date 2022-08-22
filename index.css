@@ -112,13 +112,15 @@
   background: var(--nui-bg, #fff);
   position: relative;
 }
-.n-modal.n-modal--transparent {
-  opacity: 0;
-}
-.n-modal.n-modal--transparent::backdrop {
-  opacity: 0.5;
-  animation-name: none;
-  transition: opacity 0.067s ease-in-out;
+@media (prefers-reduced-motion: no-preference) {
+  .n-modal.n-modal--transparent {
+    opacity: 0;
+  }
+  .n-modal.n-modal--transparent::backdrop {
+    opacity: 0.5;
+    animation-name: none;
+    transition: opacity 0.067s ease-in-out;
+  }
 }
 
 _::-webkit-full-page-media,

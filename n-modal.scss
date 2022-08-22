@@ -213,12 +213,15 @@
   }
 
   &.n-modal--transparent {
-    opacity: 0;
+    @media (prefers-reduced-motion: no-preference) {
 
-    &::backdrop {
-      opacity: 0.5;
-      animation-name: none;
-      transition: opacity .067s ease-in-out;
+      opacity: 0;
+
+      &::backdrop {
+        opacity: 0.5;
+        animation-name: none;
+        transition: opacity .067s ease-in-out;
+      }
     }
   }
 
