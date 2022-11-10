@@ -1,6 +1,5 @@
 var componentModal = (function() {
   /* Modal – start */
-
   //   // left: 37, up: 38, right: 39, down: 40,
   //   // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
   //   var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
@@ -40,14 +39,11 @@ var componentModal = (function() {
   //     window.removeEventListener('touchmove', preventDefault, wheelOpt);
   //     window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
   //   }
-
   // const isChrome = !!navigator.userAgent.match("Chrome");
   // const isSafari = navigator.userAgent.match(/Safari/) && !isChrome;
-
   var x = window.scrollX;
   var y = window.scrollY;
   var scroll_timeout;
-
   const blockScroll = e => {
     // console.log(e);
     // if (isSafari) {
@@ -76,7 +72,6 @@ var componentModal = (function() {
     // window.onscroll = function() {};
     window.removeEventListener('scroll', blockScroll);
   }
-
   // var previouslyFocused = previouslyFocused || false;
   function transferClass(origin, target, className) {
     let classes = typeof className === "string" ? new Array(className) : className;
@@ -86,7 +81,6 @@ var componentModal = (function() {
       }
     });
   }
-
   const animation_duration = window.matchMedia("(prefers-reduced-motion: no-preference)").matches ? 200 : 0;
   let removeModal = e => {
     document.documentElement.classList.remove('transparent-scrollbar');
@@ -146,16 +140,13 @@ var componentModal = (function() {
     // options: {content: ""/element, animation: "", trigger: element, closeSymbol: "", closeLabel: ""}
     // content is either an HTML string or an element
     // options can be solely content if it's a string or element
-
     // Fix Chrome flashing disappearing scrollbars on open
     document.documentElement.style.overflow = 'scroll';
     const scrollbar_width = window.innerWidth - document.documentElement.offsetWidth;
     document.documentElement.style.overflow = '';
-
     if (!scrollbar_width) { // Because Chrome flashes disappearing scrollbars on open (Mac)
       document.documentElement.classList.add('transparent-scrollbar');
     }
-
     if (typeof options === 'string' || !!options.tagName) {
       options = { content: options };
     }
@@ -163,9 +154,7 @@ var componentModal = (function() {
     let content = options.content;
     let trigger = options.trigger;
     var wrapper = {};
-
     var existingDetachedElement = false;
-
     if (content.parentNode) {
       // console.log(content.parentNode);
       if (content.parentNode.tagName === 'DIALOG' || content.parentNode.classList.contains('n-modal__content')) {
@@ -176,12 +165,9 @@ var componentModal = (function() {
         existingDetachedElement = true;
       }
     }
-
     const close_label = 'Close';
     const close_symbol = '╳';
-
     if (typeof content === 'object' && content.tagName === 'DIALOG') {
-
       if (!content.parentNode) { // Detached modal
         document.body.appendChild(content);
       }
@@ -206,23 +192,18 @@ var componentModal = (function() {
           content.replaceWith(marker);
           wrapper.lastChild.appendChild(content);
           marker.replaceWith(wrapper);
-
           if (content.classList.contains('n-modal__content')) {
             wrapper.lastChild.replaceWith(content);
             wrapper.attachedHiddenContent = true;
           } else {
             wrapper.dataset.existingAttachedContent = true;
-
           }
-
         } else {
           wrapper.lastChild.appendChild(content);
           document.body.appendChild(wrapper);
         }
       }
-
     }
-
     if (options.blur) {
       wrapper.classList.add('n-modal--blur');
     }
@@ -235,13 +216,12 @@ var componentModal = (function() {
     if (options.full) {
       wrapper.classList.add('n-modal--full');
     }
-
     wrapper.dataset.anim = animation;
     wrapper.classList.add("n-modal");
     wrapper.onclick = (e) => {
       let el = e.target.closest('.n-modal');
       let button = e.target.closest('.n-modal__close');
-      if (button || (e.offsetX < 0 || e.offsetY < 0 || (e.offsetX - 2) > el.getBoundingClientRect().width || (e.offsetY - 2) > el.getBoundingClientRect().height)) {
+      if (button || (e.target.matches('.n-modal') && (e.offsetX < 0 || e.offsetY < 0 || (e.offsetX - 2) > el.getBoundingClientRect().width || (e.offsetY - 2) > el.getBoundingClientRect().height))) {
         closeModal(el);
       }
     };
@@ -249,11 +229,9 @@ var componentModal = (function() {
       e.preventDefault();
       closeModal(e.target.closest('.n-modal'));
     });
-
     if (existingDetachedElement) {
       wrapper.existingDetachedElement = true;
     }
-
     wrapper.showModal();
     // nuiDisableBodyScroll(true, wrapper); // Turn on and block page scroll
     // if (document.querySelectorAll(".n-modal").length === 1) {
@@ -286,23 +264,21 @@ var componentModal = (function() {
     var link = trigger.dataset.href || trigger.href; // data-href for <button>, href for <a>
     var animation = trigger.dataset.anim;
     const openTheModal = content => transferClass(trigger, openModal({ content: content, animation: animation, trigger: trigger }), ["n-modal--full", "n-modal--rounded", "n-modal--shadow", "n-modal--blur"]);
-
     if (trigger.dataset.for) {
       openTheModal(document.getElementById(trigger.dataset.for));
     } else {
-      fetch(link.split("#")[0]).then(response => response.text())
-        .then(response => {
-          var parsed = parseHTML(response);
-          var container = !!link.split("#")[1] ? "#" + link.split("#")[1] : 0;
-          if (container && parsed.querySelector(container)) {
-            parsed = parsed.querySelector(container).innerHTML;
-          } else {
-            parsed = parsed.innerHTML;
-          }
-          openTheModal(parsed);
-        }).catch(error => {
-          openTheModal(error);
-        });
+      fetch(link.split("#")[0]).then(response => response.text()).then(response => {
+        var parsed = parseHTML(response);
+        var container = !!link.split("#")[1] ? "#" + link.split("#")[1] : 0;
+        if (container && parsed.querySelector(container)) {
+          parsed = parsed.querySelector(container).innerHTML;
+        } else {
+          parsed = parsed.innerHTML;
+        }
+        openTheModal(parsed);
+      }).catch(error => {
+        openTheModal(error);
+      });
     }
     return false;
   }
@@ -318,18 +294,14 @@ var componentModal = (function() {
       }
       el.dataset.ready = true;
     });
-
-
   };
   window.nui = typeof window.nui === 'undefined' ? {} : window.nui;
   nui.modal = openModal;
   nui.modal.init = init;
-
   let hash_modal = document.querySelector(`.n-modal${location.hash}.n-modal--uri`);
   if (location.hash && hash_modal) {
     openModal(hash_modal);
   }
-
   typeof registerComponent === "function" ? registerComponent("n-modal", init) : init(); // Is it a part of niui, or standalone?
   return { closeModal, openModal };
   /* Modal – end */
