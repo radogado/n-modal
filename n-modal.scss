@@ -92,6 +92,7 @@
     overflow: auto;
     background: transparent;
     text-align: initial;
+    max-height: calc(100% - 40px);
     // padding-inline-start: env(safe-area-inset-left);
     // padding-inline-end: env(safe-area-inset-right);
     // padding: 1.5rem 1rem;
