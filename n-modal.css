@@ -17,18 +17,24 @@
   text-align: end;
   overscroll-behavior: contain;
 }
+.n-modal, .n-modal::backdrop {
+  --duration: .2;
+}
 .n-modal::backdrop {
   background: rgba(255, 255, 255, 0.9);
 }
 @media (prefers-reduced-motion: no-preference) {
   .n-modal::backdrop {
-    animation: backdrop_fade_in 0.2s ease-in-out;
+    animation: backdrop_fade_in calc(var(--duration) * 1s) ease-in-out forwards;
   }
 }
 @media (prefers-color-scheme: dark) {
   .n-modal::backdrop {
     background: rgba(0, 0, 0, 0.9);
   }
+}
+.n-modal.n-modal--closing::backdrop {
+  animation-name: backdrop_fade_out;
 }
 .n-modal__content {
   display: none;
@@ -136,6 +142,14 @@ _:future,
   }
   to {
     opacity: 1;
+  }
+}
+@keyframes backdrop_fade_out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
 @keyframes backdrop_blur {

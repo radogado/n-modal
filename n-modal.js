@@ -81,7 +81,7 @@ var componentModal = (function() {
       }
     });
   }
-  const animation_duration = window.matchMedia("(prefers-reduced-motion: no-preference)").matches ? 200 : 0;
+  const animationDuration = () => window.matchMedia("(prefers-reduced-motion: no-preference)").matches ? (getComputedStyle(document.querySelector('.n-modal')).getPropertyValue('--duration') * 1000) : 0;
   let removeModal = e => {
     document.documentElement.classList.remove('transparent-scrollbar');
     let modal = e.target;
@@ -116,11 +116,13 @@ var componentModal = (function() {
     var animation = modal.dataset.anim; // Custom animation?
     if (!animation || animation.length < 11) {
       // '', 'null' or 'undefined'?
-      animation = '[{ "transform": "translate3d(0,0,0)" }, { "transform": "translate3d(0,-100%,0)" }]';
+      animation = '[{ "transform": "translate3d(0,0,0)" }, { "transform": "translate3d(0,-100vh,0)" }]';
     } else {
       direction_option = "reverse";
     }
-    modal.animate(JSON.parse(animation), { duration: animation_duration, direction: direction_option, easing: "ease-in-out" }).onfinish = () => {
+    modal.classList.add('n-modal--closing');
+    setTimeout(() => { modal.classList.remove('n-modal--closing'); }, animationDuration());
+    modal.animate(JSON.parse(animation), { duration: animationDuration(), direction: direction_option, easing: "ease-in-out" }).onfinish = () => {
       enableScrolling();
       // nuiDisableBodyScroll(false, modal); // Turn off and restore page scroll
       if (modal.existingModal) {
@@ -241,7 +243,7 @@ var componentModal = (function() {
     // }
     // document.querySelector("html").classList.add("no-scroll");
     wrapper.animate(typeof animation === "string" ? JSON.parse(animation) : [{ transform: "translate3d(0,-100vh,0)" }, { transform: "translate3d(0,0,0)" }], {
-      duration: animation_duration,
+      duration: animationDuration(),
       easing: "ease-in-out",
     }).onfinish = () => {
       wrapper.addEventListener('close', removeModal);

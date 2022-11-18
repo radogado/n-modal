@@ -38,7 +38,7 @@
 
 .n-modal {
 
-  transition: opacity .067s ease-in-out;
+  transition: opacity .067s ease-in-out; // When scrolling the page behind
   overscroll-behavior: contain;
   background: var(--nui-bg, #fff);
   color: var(--nui-color, #000);
@@ -46,16 +46,26 @@
   text-align: end;
 
   // z-index: 999999;
+
+  &,
+  &::backdrop {
+    --duration: .2;
+  }
+
   &::backdrop {
     background: rgba(255, 255, 255, 0.9);
 
     @media (prefers-reduced-motion: no-preference) {
-      animation: backdrop_fade_in .2s ease-in-out;
+      animation: backdrop_fade_in calc(var(--duration) * 1s) ease-in-out forwards;
     }
 
     @media (prefers-color-scheme: dark) {
       background: rgba(0, 0, 0, 0.9);
     }
+  }
+
+  &.n-modal--closing::backdrop {
+    animation-name: backdrop_fade_out;
   }
 
   // overflow: hidden;
@@ -241,6 +251,16 @@ _:future,
 
   to {
     opacity: 1;
+  }
+}
+
+@keyframes backdrop_fade_out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
   }
 }
 
