@@ -35,7 +35,7 @@
   overflow: auto;
   background: transparent;
   text-align: initial;
-  max-height: calc(100% - 40px);
+  max-height: calc(100vh - 2rem - 40px - 12px);
 }
 .n-modal > .n-modal__content {
   display: revert;
