@@ -109,6 +109,9 @@
   animation-name: backdrop_blur;
   animation-fill-mode: forwards;
 }
+.n-modal.n-modal--blur.n-modal--closing::backdrop {
+  animation-name: backdrop_blur_back;
+}
 .n-modal.n-modal--rounded {
   border-radius: 0.5ch;
 }
@@ -153,9 +156,23 @@ _:future,
   }
 }
 @keyframes backdrop_blur {
+  from {
+    -webkit-backdrop-filter: blur(0);
+    backdrop-filter: blur(0);
+  }
   to {
     -webkit-backdrop-filter: blur(1rem);
     backdrop-filter: blur(1rem);
+  }
+}
+@keyframes backdrop_blur_back {
+  from {
+    -webkit-backdrop-filter: blur(1rem);
+    backdrop-filter: blur(1rem);
+  }
+  to {
+    -webkit-backdrop-filter: blur(0);
+    backdrop-filter: blur(0);
   }
 }
 
