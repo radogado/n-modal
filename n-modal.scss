@@ -1,5 +1,4 @@
 /* niui – Modal */
-// @import "../../css/niui-setup";
 
 // .no-scroll {
 // 
@@ -43,9 +42,7 @@
   background: var(--nui-bg, #fff);
   color: var(--nui-color, #000);
   border: 0;
-  text-align: end;
-
-  // z-index: 999999;
+  text-align: right;  // Follow browser tabs X button position
 
   &,
   &::backdrop {
@@ -68,33 +65,6 @@
     animation-name: backdrop_fade_out;
   }
 
-  // overflow: hidden;
-  // overflow-y: auto;
-  // position: fixed;
-  // top: var(--overlay-top, 0);
-  // inset: 0;
-  // width: 100%;
-  // height: 100%;
-  // height: 100dvh;
-  // box-sizing: border-box;
-  // -webkit-backface-visibility: hidden;
-  // backface-visibility: hidden;
-
-  //   display: flex;
-  //   flex-direction: column;
-  // 
-  //   border: calc(50vw - 35ch) solid transparent;
-  //   border-top-width: 3ch;
-  //   border-bottom-width: 3ch;
-
-  // @media (max-width: 900px) {
-  //   border-width: 1ch;
-  // }
-
-  // * {
-  //   box-sizing: border-box;
-  // }
-
   overscroll-behavior: contain;
 
   &__content {
@@ -103,13 +73,6 @@
     background: transparent;
     text-align: initial;
     max-height: calc(100vh - 2rem - 40px - 12px);
-    // padding-inline-start: env(safe-area-inset-left);
-    // padding-inline-end: env(safe-area-inset-right);
-    // padding: 1.5rem 1rem;
-
-    // &:focus {
-    //   outline: 0;
-    // }
   }
 
   > .n-modal__content {
@@ -123,30 +86,13 @@
     cursor: pointer;
     padding: 0.75em;
     font: inherit;
-    // font-weight: bold;
     background-color: var(--nui-control-bg, rgba(0, 0, 0, 0.7));
-    // width: 100%;
     z-index: 1;
     top: 0;
     position: sticky;
-    // overflow: hidden;
-    // height: 3em;
-    // overflow-x: auto;
-    // white-space: nowrap;
-    // line-height: var(--line-height-em, 1.5rem);
-    // text-align: start;
     border: 0;
-    // outline-offset: -5px;
-
-    // flex: 3em 0 0;
-    // line-height: 0;
     padding: 0.5rem;
-    // font-size: 2rem;
-    // padding-bottom: 1.25rem;
     font-weight: normal;
-
-    // margin-inline-start: env(safe-area-inset-left);
-    // margin-inline-end: env(safe-area-inset-right);
 
     &:before {
       content: attr(data-close-symbol);
@@ -183,7 +129,6 @@
   }
 
   &.n-modal--shadow {
-    // margin-top: .75rem;
     box-shadow: 0 0 .25rem .125rem rgba(0, 0, 0, .5);
     max-height: calc(100% - 3.5rem);
     max-width: calc(100% - 3.5rem);
@@ -242,7 +187,7 @@
 _::-webkit-full-page-media,
 _:future,
 :root .n-modal {
-  text-align: start;
+  text-align: left; // Follow browser tabs X button position
 }
 
 @keyframes backdrop_fade_in {

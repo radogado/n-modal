@@ -14,7 +14,7 @@
   background: var(--nui-bg, #fff);
   color: var(--nui-color, #000);
   border: 0;
-  text-align: end;
+  text-align: right;
   overscroll-behavior: contain;
 }
 .n-modal, .n-modal::backdrop {
@@ -136,7 +136,7 @@
 _::-webkit-full-page-media,
 _:future,
 :root .n-modal {
-  text-align: start;
+  text-align: left;
 }
 
 @keyframes backdrop_fade_in {
