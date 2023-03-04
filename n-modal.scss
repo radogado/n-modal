@@ -43,6 +43,7 @@
   color: var(--nui-color, #000);
   border: 0;
   text-align: right;  // Follow browser tabs X button position
+  border-radius: var(--nui-border-radius);
 
   &,
   &::backdrop {
@@ -93,6 +94,7 @@
     border: 0;
     padding: 0.5rem;
     font-weight: normal;
+    border-radius: var(--nui-border-radius);
 
     &:before {
       content: attr(data-close-symbol);
