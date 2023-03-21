@@ -271,7 +271,7 @@ var componentModal = (function() {
     } else {
       fetch(link.split("#")[0]).then(response => response.text()).then(response => {
         var parsed = parseHTML(response);
-        var container = !!link.split("#")[1] ? "#" + link.split("#")[1] : 0;
+        var container = !!link.split("#")[1] ? "#" + link.split("#")[1].split('?')[0] : 0;
         if (container && parsed.querySelector(container)) {
           parsed = parsed.querySelector(container).innerHTML;
         } else {
