@@ -15,7 +15,6 @@
   color: var(--nui-color, #000);
   border: 0;
   text-align: right;
-  border-radius: var(--nui-border-radius);
   overscroll-behavior: contain;
 }
 .n-modal, .n-modal::backdrop {
@@ -62,7 +61,6 @@
   border: 0;
   padding: 0.5rem;
   font-weight: normal;
-  border-radius: var(--nui-border-radius);
 }
 .n-modal > .n-modal__close:before {
   content: attr(data-close-symbol);
@@ -177,6 +175,11 @@ _:future,
     -webkit-backdrop-filter: blur(0);
     backdrop-filter: blur(0);
   }
+}
+.n-modal,
+.n-modal__close {
+  border-radius: var(--nui-border-radius);
+  box-shadow: 0 0 0 var(--nui-border-size) var(--nui-border-color), 0 0 var(--nui-shadow-blur) calc(var(--nui-border-size) + var(--nui-shadow-size)) var(--nui-shadow-color);
 }
 
 /*# sourceMappingURL=index.css.map */
