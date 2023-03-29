@@ -299,6 +299,7 @@ var componentModal = (function() {
   };
   window.nui = typeof window.nui === 'undefined' ? {} : window.nui;
   nui.modal = openModal;
+  nui.closeModal = closeModal;
   nui.modal.init = init;
   let hash_modal = document.querySelector(`.n-modal${location.hash}.n-modal--uri`);
   if (location.hash && hash_modal) {
