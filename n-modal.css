@@ -42,6 +42,7 @@
   background: transparent;
   text-align: initial;
   max-height: calc(100vh - 2rem - 40px - 12px - 1em);
+  padding: 0.25em;
 }
 .n-modal > .n-modal__content {
   display: revert;
@@ -49,7 +50,7 @@
 .n-modal > .n-modal__close {
   min-width: 40px;
   min-height: 40px;
-  margin-bottom: 1em;
+  margin: 0.25em;
   color: var(--nui-control-color, #fff);
   cursor: pointer;
   padding: 0.75em;
