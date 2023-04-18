@@ -305,7 +305,7 @@ var componentModal = (function() {
   if (location.hash && hash_modal) {
     openModal(hash_modal);
   }
-  typeof registerComponent === "function" ? registerComponent("n-modal", init) : init(); // Is it a part of niui, or standalone?
+  (nui && typeof nui.registerComponent === "function") ? nui.registerComponent("n-modal", init, { 'name': 'modal', 'code': openModal }): init(); // Is it a part of niui, or standalone?
   return { closeModal, openModal };
   /* Modal – end */
 })();
