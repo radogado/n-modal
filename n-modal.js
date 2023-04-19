@@ -1,5 +1,5 @@
-var componentModal = (function() {
-  /* Modal – start */
+/* Modal – start */
+(function() {
   //   // left: 37, up: 38, right: 39, down: 40,
   //   // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
   //   var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
@@ -297,15 +297,20 @@ var componentModal = (function() {
       el.dataset.ready = true;
     });
   };
-  window.nui = typeof window.nui === 'undefined' ? {} : window.nui;
-  nui.modal = openModal;
-  nui.closeModal = closeModal;
-  nui.modal.init = init;
   let hash_modal = document.querySelector(`.n-modal${location.hash}.n-modal--uri`);
   if (location.hash && hash_modal) {
     openModal(hash_modal);
   }
-  (nui && typeof nui.registerComponent === "function") ? nui.registerComponent("n-modal", init, { 'name': 'modal', 'code': openModal }): init(); // Is it a part of niui, or standalone?
-  return { closeModal, openModal };
-  /* Modal – end */
+  // API
+  let modal = openModal;
+  modal.close = closeModal;
+  modal.init = init;
+  if (typeof nui !== 'undefined' && typeof nui.registerComponent === "function") {
+    nui.registerComponent("n-modal", init, { 'name': 'modal', 'code': modal })
+  } else {
+    init();
+    window.nui = {};
+    window.nui.modal = modal;
+  } // Is it a part of niui, or standalone?
 })();
+/* Modal – end */
