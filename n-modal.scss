@@ -36,7 +36,6 @@
 // }
 
 .n-modal {
-
   transition: opacity .067s ease-in-out; // When scrolling the page behind
   overscroll-behavior: contain;
   background: var(--nui-bg, #fff);
@@ -64,8 +63,6 @@
   &.n-modal--closing::backdrop {
     animation-name: backdrop_fade_out;
   }
-
-  overscroll-behavior: contain;
 
   &__content {
     display: none;
