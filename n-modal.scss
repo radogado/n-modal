@@ -1,7 +1,7 @@
 /* niui – Modal */
 
 // .no-scroll {
-// 
+//
 //   &,
 //   & body {
 //     touch-action: none;
@@ -10,7 +10,7 @@
 //     // overflow: hidden;
 //     -webkit-overflow-scrolling: auto;
 //   }
-// 
+//
 //   body {
 //     scrollbar-gutter: stable;
 //   }
@@ -29,14 +29,14 @@
 
 // html.n-full-screen {
 //   background: #000;
-// 
+//
 //   body {
 //     opacity: 0;
 //   }
 // }
 
 .n-modal {
-  transition: opacity .067s ease-in-out; // When scrolling the page behind
+  transition: opacity 0.067s ease-in-out; // When scrolling the page behind
   overscroll-behavior: contain;
   background: var(--nui-bg, #fff);
   color: var(--nui-color, #000);
@@ -45,14 +45,15 @@
 
   &,
   &::backdrop {
-    --duration: .2;
+    --duration: 0.2;
   }
 
   &::backdrop {
     background: rgba(255, 255, 255, 0.9);
 
     @media (prefers-reduced-motion: no-preference) {
-      animation: backdrop_fade_in calc(var(--duration) * 1s) ease-in-out forwards;
+      animation: backdrop_fade_in calc(var(--duration) * 1s) ease-in-out
+        forwards;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -96,7 +97,6 @@
     &:before {
       content: attr(data-close-symbol);
     }
-
   }
 
   &.n-modal--full {
@@ -128,12 +128,12 @@
   }
 
   &.n-modal--shadow {
-    box-shadow: 0 0 .25rem .125rem rgba(0, 0, 0, .5);
+    box-shadow: 0 0 0.25rem 0.125rem rgba(0, 0, 0, 0.5);
     max-height: calc(100% - 3.5rem);
     max-width: calc(100% - 3.5rem);
 
     @media (prefers-color-scheme: dark) {
-      box-shadow: 0 0 .25rem .125rem rgba(255, 255, 255, .5);
+      box-shadow: 0 0 0.25rem 0.125rem rgba(255, 255, 255, 0.5);
     }
 
     &::backdrop {
@@ -170,23 +170,21 @@
 
   &.n-modal--transparent {
     @media (prefers-reduced-motion: no-preference) {
-
       opacity: 0;
 
       &::backdrop {
         opacity: 0.5;
         animation-name: none;
-        transition: opacity .067s ease-in-out;
+        transition: opacity 0.067s ease-in-out;
       }
     }
   }
-
 }
 
 _::-webkit-full-page-media,
 _:future,
 :root .n-modal {
-  text-align: left; // Follow browser tabs X button position
+  text-align: left; // Safari: Follow browser tabs X button position
 }
 
 @keyframes backdrop_fade_in {
@@ -236,5 +234,34 @@ _:future,
 .n-modal,
 .n-modal__close {
   border-radius: var(--nui-border-radius);
-  box-shadow: 0 0 0 var(--nui-border-size) var(--nui-border-color), 0 0 var(--nui-shadow-blur) calc(var(--nui-border-size) + var(--nui-shadow-size)) var(--nui-shadow-color);
+  box-shadow: 0 0 0 var(--nui-border-size) var(--nui-border-color),
+    0 0 var(--nui-shadow-blur)
+      calc(var(--nui-border-size) + var(--nui-shadow-size))
+      var(--nui-shadow-color);
+}
+
+body:has(> dialog.n-modal--blur)::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2147483646;
+  pointer-events: none;
+  backdrop-filter: blur(0);
+  -webkit-backdrop-filter: blur(0);
+  -moz-backdrop-filter: blur(0);
+  animation: backdrop_blur calc(var(--duration, 0.2) * 1s) ease-in-out forwards;
+  
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    backdrop-filter: blur(1rem);
+    -webkit-backdrop-filter: blur(1rem);
+    -moz-backdrop-filter: blur(1rem);
+  }
+}
+
+body:has(> dialog.n-modal--blur.n-modal--closing)::before {
+  animation-name: backdrop_blur_back;
 }

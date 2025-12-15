@@ -1,0 +1,210 @@
+@charset "UTF-8";
+/* niui – Modal */
+.transparent-scrollbar body > :not(dialog) ::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+.transparent-scrollbar body > :not(dialog) ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.n-modal {
+  transition: opacity 0.067s ease-in-out;
+  overscroll-behavior: contain;
+  background: var(--nui-bg, #fff);
+  color: var(--nui-color, #000);
+  border: 0;
+  text-align: right;
+}
+.n-modal, .n-modal::backdrop {
+  --duration: 0.2;
+}
+.n-modal::backdrop {
+  background: rgba(255, 255, 255, 0.9);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .n-modal::backdrop {
+    animation: backdrop_fade_in calc(var(--duration) * 1s) ease-in-out forwards;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  .n-modal::backdrop {
+    background: rgba(0, 0, 0, 0.9);
+  }
+}
+.n-modal.n-modal--closing::backdrop {
+  animation-name: backdrop_fade_out;
+}
+.n-modal__content {
+  display: none;
+  overflow: auto;
+  background: transparent;
+  text-align: initial;
+  max-height: calc(100vh - 2rem - 40px - 12px - 1em);
+  padding: 0.25em;
+}
+.n-modal > .n-modal__content {
+  display: revert;
+}
+.n-modal > .n-modal__close {
+  min-width: 40px;
+  min-height: 40px;
+  margin: 0.25em;
+  color: var(--nui-control-color, #fff);
+  cursor: pointer;
+  padding: 0.75em;
+  font: inherit;
+  background-color: var(--nui-control-bg, rgba(0, 0, 0, 0.7));
+  z-index: 1;
+  top: 0;
+  position: sticky;
+  border: 0;
+  padding: 0.5rem;
+  font-weight: normal;
+}
+.n-modal > .n-modal__close:before {
+  content: attr(data-close-symbol);
+}
+.n-modal.n-modal--full {
+  margin: auto;
+  width: 100%;
+  width: calc(100vw - 2 * env(safe-area-inset-left));
+  height: 100%;
+  box-shadow: 0 0 0 6px var(--nui-bg, white);
+}
+@media (prefers-color-scheme: dark) {
+  .n-modal.n-modal--full {
+    box-shadow: 0 0 0 6px var(--nui-bg, black);
+  }
+}
+.n-modal.n-modal--full::backdrop {
+  opacity: 0;
+  animation: none;
+}
+.n-modal[data-existing-attached-content]::backdrop {
+  animation: none;
+  background: white;
+}
+@media (prefers-color-scheme: dark) {
+  .n-modal[data-existing-attached-content]::backdrop {
+    background: black;
+  }
+}
+.n-modal.n-modal--shadow {
+  box-shadow: 0 0 0.25rem 0.125rem rgba(0, 0, 0, 0.5);
+  max-height: calc(100% - 3.5rem);
+  max-width: calc(100% - 3.5rem);
+}
+@media (prefers-color-scheme: dark) {
+  .n-modal.n-modal--shadow {
+    box-shadow: 0 0 0.25rem 0.125rem rgba(255, 255, 255, 0.5);
+  }
+}
+.n-modal.n-modal--shadow::backdrop {
+  opacity: 0;
+  animation-name: none;
+}
+.n-modal.n-modal--blur::backdrop {
+  opacity: 1;
+  background: none;
+  animation-name: backdrop_blur;
+  animation-fill-mode: forwards;
+}
+.n-modal.n-modal--blur.n-modal--closing::backdrop {
+  animation-name: backdrop_blur_back;
+}
+.n-modal.n-modal--rounded {
+  border-radius: 0.5ch;
+}
+.n-modal.n-modal--rounded .n-modal__close {
+  border-radius: 20px;
+}
+.n-modal > * {
+  background: var(--nui-bg, #fff);
+  position: relative;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .n-modal.n-modal--transparent {
+    opacity: 0;
+  }
+  .n-modal.n-modal--transparent::backdrop {
+    opacity: 0.5;
+    animation-name: none;
+    transition: opacity 0.067s ease-in-out;
+  }
+}
+
+_::-webkit-full-page-media,
+_:future,
+:root .n-modal {
+  text-align: left;
+}
+
+@keyframes backdrop_fade_in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes backdrop_fade_out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes backdrop_blur {
+  from {
+    -webkit-backdrop-filter: blur(0);
+    backdrop-filter: blur(0);
+  }
+  to {
+    -webkit-backdrop-filter: blur(1rem);
+    backdrop-filter: blur(1rem);
+  }
+}
+@keyframes backdrop_blur_back {
+  from {
+    -webkit-backdrop-filter: blur(1rem);
+    backdrop-filter: blur(1rem);
+  }
+  to {
+    -webkit-backdrop-filter: blur(0);
+    backdrop-filter: blur(0);
+  }
+}
+.n-modal,
+.n-modal__close {
+  border-radius: var(--nui-border-radius);
+  box-shadow: 0 0 0 var(--nui-border-size) var(--nui-border-color), 0 0 var(--nui-shadow-blur) calc(var(--nui-border-size) + var(--nui-shadow-size)) var(--nui-shadow-color);
+}
+
+body:has(> dialog.n-modal--blur)::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2147483646;
+  pointer-events: none;
+  backdrop-filter: blur(0);
+  -webkit-backdrop-filter: blur(0);
+  -moz-backdrop-filter: blur(0);
+  animation: backdrop_blur calc(var(--duration, 0.2) * 1s) ease-in-out forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  body:has(> dialog.n-modal--blur)::before {
+    animation: none;
+    backdrop-filter: blur(1rem);
+    -webkit-backdrop-filter: blur(1rem);
+    -moz-backdrop-filter: blur(1rem);
+  }
+}
+
+body:has(> dialog.n-modal--blur.n-modal--closing)::before {
+  animation-name: backdrop_blur_back;
+}
