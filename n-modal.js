@@ -182,7 +182,13 @@
       }
     } else {
       wrapper = document.createElement("dialog");
-      wrapper.insertAdjacentHTML("afterbegin", `<button class="n-modal__close" aria-label="${options.closeLabel || trigger?.dataset.closeLabel || close_label}" data-close-symbol="${options.closeSymbol || trigger?.dataset.closeSymbol || close_symbol}"></button><div class="n-modal__content"></div>`);
+      const closeButton = document.createElement("button");
+      closeButton.className = "n-modal__close";
+      closeButton.setAttribute("aria-label", options.closeLabel || trigger?.dataset.closeLabel || close_label);
+      closeButton.dataset.closeSymbol = options.closeSymbol || trigger?.dataset.closeSymbol || close_symbol;
+      const contentContainer = document.createElement("div");
+      contentContainer.className = "n-modal__content";
+      wrapper.append(closeButton, contentContainer);
       let modal_content = document.createElement("div");
       if (typeof content === "string") {
         wrapper.lastChild.innerHTML = content;
