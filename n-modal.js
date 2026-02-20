@@ -1,52 +1,7 @@
 /* Modal – start */
 (function() {
-  //   // left: 37, up: 38, right: 39, down: 40,
-  //   // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
-  //   var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
-  // 
-  //   function preventDefault(e) {
-  //     e.preventDefault();
-  //   }
-  // 
-  //   function preventDefaultForScrollKeys(e) {
-  //     if (keys[e.keyCode]) {
-  //       preventDefault(e);
-  //       return false;
-  //     }
-  //   }
-  // 
-  //   // modern Chrome requires { passive: false } when adding event
-  //   var supportsPassive = false;
-  //   try {
-  //     window.addEventListener("test", null, Object.defineProperty({}, 'passive', {
-  //       get: function() { supportsPassive = true; }
-  //     }));
-  //   } catch (e) {}
-  // 
-  //   var wheelOpt = supportsPassive ? { passive: false } : false;
-  //   var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
-  // 
-  //   // call this to Disable
-  //   function disableScrolling() {
-  //     window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
-  //     window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
-  //     window.addEventListener('keydown', preventDefaultForScrollKeys, false);
-  //   }
-  // 
-  //   // call this to Enable
-  //   function enableScrolling() {
-  //     window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
-  //     window.removeEventListener('touchmove', preventDefault, wheelOpt);
-  //     window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
-  //   }
-  // const isChrome = !!navigator.userAgent.match("Chrome");
-  // const isSafari = navigator.userAgent.match(/Safari/) && !isChrome;
-  var x = window.scrollX;
-  var y = window.scrollY;
   var scroll_timeout;
-  const blockScroll = e => {
-    // console.log(e);
-    // if (isSafari) {
+  const blockScroll = () => {
     document.querySelectorAll('dialog.n-modal[open]').forEach(el => {
       el.classList.add('n-modal--transparent');
     });
@@ -56,23 +11,15 @@
         el.classList.remove('n-modal--transparent');
       });
     }, 67);
-    // } else {
-    //   window.scrollTo(x, y);
-    // }
   };
 
   function disableScrolling() {
-    x = window.scrollX;
-    y = window.scrollY;
-    // window.onscroll = function() { window.scrollTo(x, y); };
-    window.addEventListener('scroll', blockScroll, { 'passive': 'true' });
+    window.addEventListener('scroll', blockScroll, { passive: true });
   }
 
   function enableScrolling() {
-    // window.onscroll = function() {};
     window.removeEventListener('scroll', blockScroll);
   }
-  // var previouslyFocused = previouslyFocused || false;
   function transferClass(origin, target, className) {
     let classes = typeof className === "string" ? new Array(className) : className;
     classes.forEach(el => {
@@ -81,7 +28,11 @@
       }
     });
   }
-  const animationDuration = () => window.matchMedia("(prefers-reduced-motion: no-preference)").matches ? (getComputedStyle(document.querySelector('.n-modal')).getPropertyValue('--duration') * 1000) : 0;
+  const animationDuration = () => {
+    if (!window.matchMedia("(prefers-reduced-motion: no-preference)").matches) return 0;
+    const modal = document.querySelector('.n-modal');
+    return modal ? parseFloat(getComputedStyle(modal).getPropertyValue('--duration')) * 1000 : 200;
+  };
   let removeModal = e => {
     document.documentElement.classList.remove('transparent-scrollbar');
     let modal = e.target;
@@ -229,7 +180,8 @@
     wrapper.onclick = (e) => {
       let el = e.target.closest('.n-modal');
       let button = e.target.closest('.n-modal__close');
-      if (button || (e.target.matches('.n-modal') && (e.offsetX < 0 || e.offsetY < 0 || (e.offsetX - 2) > el.getBoundingClientRect().width || (e.offsetY - 2) > el.getBoundingClientRect().height))) {
+      let rect = el.getBoundingClientRect();
+      if (button || (e.target.matches('.n-modal') && (e.offsetX < 0 || e.offsetY < 0 || (e.offsetX - 2) > rect.width || (e.offsetY - 2) > rect.height))) {
         closeModal(el);
       }
     };
@@ -273,7 +225,8 @@
     var animation = trigger.dataset.anim;
     const openTheModal = content => transferClass(trigger, openModal({ content: content, animation: animation, trigger: trigger }), ["n-modal--full", "n-modal--rounded", "n-modal--shadow", "n-modal--blur"]);
     if (trigger.dataset.for) {
-      openTheModal(document.getElementById(trigger.dataset.for));
+      let target = document.getElementById(trigger.dataset.for);
+      if (target) openTheModal(target);
     } else {
       fetch(link.split("#")[0]).then(response => response.text()).then(response => {
         var parsed = parseHTML(response);
@@ -285,7 +238,7 @@
         }
         openTheModal(parsed);
       }).catch(error => {
-        openTheModal(error);
+        openTheModal(`<p>${error.message || error}</p>`);
       });
     }
     return false;
