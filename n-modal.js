@@ -1,13 +1,14 @@
 /* Modal – start */
 (function() {
   var scroll_timeout;
+  const openModalsSel = 'dialog.n-modal[open]';
   const blockScroll = () => {
-    document.querySelectorAll('dialog.n-modal[open]').forEach(el => {
+    document.querySelectorAll(openModalsSel).forEach(el => {
       el.classList.add('n-modal--transparent');
     });
     clearTimeout(scroll_timeout);
     scroll_timeout = setTimeout(() => {
-      document.querySelectorAll('dialog.n-modal[open]').forEach(el => {
+      document.querySelectorAll(openModalsSel).forEach(el => {
         el.classList.remove('n-modal--transparent');
       });
     }, 67);
@@ -125,6 +126,7 @@
         document.body.appendChild(content);
       }
       wrapper = content;
+      wrapper.setAttribute("closedby", "any");
       wrapper.existingModal = true;
       let close_button = wrapper.querySelector('.n-modal__close');
       if (close_button) {
@@ -133,6 +135,7 @@
       }
     } else {
       wrapper = document.createElement("dialog");
+      wrapper.setAttribute("closedby", "any");
       const closeButton = document.createElement("button");
       closeButton.className = "n-modal__close";
       closeButton.setAttribute("aria-label", options.closeLabel || trigger?.dataset.closeLabel || close_label);
