@@ -1,4 +1,5 @@
 /* niui – Modal */
+@use "../../css/niui-vars" as *;
 
 // .no-scroll {
 //
@@ -97,6 +98,8 @@
     &:before {
       content: attr(data-close-symbol);
     }
+
+    @include focus-visible-ring;
   }
 
   &.n-modal--full {
