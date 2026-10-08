@@ -61,21 +61,38 @@
         }
       }
     }
+    if (!document.querySelector(openModalsSel)) {
+      enableScrolling();
+    }
+  }
+
+  const defaultCloseKeyframes = [{ transform: "translate3d(0,0,0)" }, { transform: "translate3d(0,-100vh,0)" }];
+  const defaultOpenKeyframes = [{ transform: "translate3d(0,-100vh,0)" }, { transform: "translate3d(0,0,0)" }];
+  function parseModalKeyframes(animation, fallback) {
+    if (typeof animation !== "string" || !animation || animation.length < 11) {
+      return fallback;
+    }
+    try {
+      return JSON.parse(animation);
+    } catch {
+      return fallback;
+    }
   }
 
   function closeModal(modal) {
     let direction_option = "normal";
     var animation = modal.dataset.anim; // Custom animation?
-    if (!animation || animation.length < 11) {
-      // '', 'null' or 'undefined'?
-      animation = '[{ "transform": "translate3d(0,0,0)" }, { "transform": "translate3d(0,-100vh,0)" }]';
-    } else {
+    let keyframes = defaultCloseKeyframes;
+    if (animation && animation.length >= 11) {
       direction_option = "reverse";
+      keyframes = parseModalKeyframes(animation, defaultCloseKeyframes);
+      if (keyframes === defaultCloseKeyframes) {
+        direction_option = "normal";
+      }
     }
     modal.classList.add('n-modal--closing');
     setTimeout(() => { modal.classList.remove('n-modal--closing'); }, animationDuration());
-    modal.animate(JSON.parse(animation), { duration: animationDuration(), direction: direction_option, easing: "ease-in-out" }).onfinish = () => {
-      enableScrolling();
+    modal.animate(keyframes, { duration: animationDuration(), direction: direction_option, easing: "ease-in-out" }).onfinish = () => {
       // nuiDisableBodyScroll(false, modal); // Turn off and restore page scroll
       if (modal.existingModal) {
         if (!modal.existingDetachedElement) {
@@ -85,6 +102,9 @@
         delete modal.dataset.anim;
       }
       modal.close();
+      if (!document.querySelector(openModalsSel)) {
+        enableScrolling();
+      }
       // document.querySelector("html").classList.remove("no-scroll");
       // window.scrollTo(modal.previousScrollX, modal.previousScrollY);
     };
@@ -126,6 +146,9 @@
         document.body.appendChild(content);
       }
       wrapper = content;
+      if (wrapper.open) {
+        return wrapper;
+      }
       wrapper.setAttribute("closedby", "any");
       wrapper.existingModal = true;
       let close_button = wrapper.querySelector('.n-modal__close');
@@ -203,7 +226,11 @@
     //   wrapper.previousScrollY = window.scrollY;
     // }
     // document.querySelector("html").classList.add("no-scroll");
-    wrapper.animate(typeof animation === "string" ? JSON.parse(animation) : [{ transform: "translate3d(0,-100vh,0)" }, { transform: "translate3d(0,0,0)" }], {
+    const openKeyframes =
+      typeof animation === "string"
+        ? parseModalKeyframes(animation, defaultOpenKeyframes)
+        : defaultOpenKeyframes;
+    wrapper.animate(openKeyframes, {
       duration: animationDuration(),
       easing: "ease-in-out",
     }).onfinish = () => {
